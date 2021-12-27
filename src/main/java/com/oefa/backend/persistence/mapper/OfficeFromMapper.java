@@ -1,8 +1,6 @@
 package com.oefa.backend.persistence.mapper;
 
 import com.oefa.backend.domain.OfficeFrom;
-import com.oefa.backend.domain.Specialty;
-import com.oefa.backend.persistence.entity.Especialidad;
 import com.oefa.backend.persistence.entity.OficinaProveniente;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;

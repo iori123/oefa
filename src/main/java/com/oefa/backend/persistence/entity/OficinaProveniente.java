@@ -7,10 +7,10 @@ import java.time.LocalDateTime;
 @Table(name="T_MAP_OFICINA_PROVENIENTE")
 public class OficinaProveniente {
     @Id
-    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="secuencia_esp")
-    @SequenceGenerator(name="secuencia_esp", sequenceName="secuencia_esp", allocationSize=0)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="office_sec")
+    @SequenceGenerator(name="office_sec", sequenceName="office_sec", allocationSize=0)
     @Column(name = "CODIGO_OFICINA")
-    private String codigoOficina;
+    private Integer codigoOficina;
 
     @Column(name = "NOMBRE_OFICINA")
     private String nombreOficina;
@@ -30,11 +30,11 @@ public class OficinaProveniente {
     @Column(name = "FECHA_ACTUALIZA_AUDITORIA")
     private LocalDateTime fechaActualizacion;
 
-    public String getCodigoOficina() {
+    public Integer getCodigoOficina() {
         return codigoOficina;
     }
 
-    public void setCodigoOficina(String codigoOficina) {
+    public void setCodigoOficina(Integer codigoOficina) {
         this.codigoOficina = codigoOficina;
     }
 

@@ -12,23 +12,6 @@ public class OfficeFrom {
     private String userUpdated;
     private  LocalDateTime dateUpdated;
 
-
-    public String getUserUpdated() {
-        return userUpdated;
-    }
-
-    public void setUserUpdated(String userUpdated) {
-        this.userUpdated = userUpdated;
-    }
-
-    public LocalDateTime getDateUpdated() {
-        return dateUpdated;
-    }
-
-    public void setDateUpdated(LocalDateTime dateUpdated) {
-        this.dateUpdated = dateUpdated;
-    }
-
     public Integer getId() {
         return id;
     }
@@ -45,16 +28,16 @@ public class OfficeFrom {
         this.name = name;
     }
 
-    public String getUserCreated() {
-        return userCreated;
-    }
-
     public String getDirection() {
         return direction;
     }
 
     public void setDirection(String direction) {
         this.direction = direction;
+    }
+
+    public String getUserCreated() {
+        return userCreated;
     }
 
     public void setUserCreated(String userCreated) {
@@ -67,5 +50,21 @@ public class OfficeFrom {
 
     public void setDateCreated(LocalDateTime dateCreated) {
         this.dateCreated = dateCreated;
+    }
+
+    public String getUserUpdated() {
+        return userUpdated;
+    }
+
+    public void setUserUpdated(String userUpdated) {
+        this.userUpdated = userUpdated;
+    }
+
+    public LocalDateTime getDateUpdated() {
+        return dateUpdated;
+    }
+
+    public void setDateUpdated(LocalDateTime dateUpdated) {
+        this.dateUpdated = dateUpdated;
     }
 }

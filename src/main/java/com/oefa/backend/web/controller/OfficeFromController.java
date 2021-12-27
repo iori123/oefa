@@ -22,7 +22,7 @@ public class OfficeFromController {
     private OfficeFromService officeFromService;
 
     @GetMapping
-    @ApiOperation("Get all list of Specialties")
+    @ApiOperation("Get all list of OfficeFrom")
     @ApiResponse(code = 200 , message = "OK")
     public ResponseEntity<List<OfficeFrom>> getAll() {
         return new ResponseEntity<>(officeFromService.getAll(), HttpStatus.OK);
