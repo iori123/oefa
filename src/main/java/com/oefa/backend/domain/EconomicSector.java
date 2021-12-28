@@ -4,18 +4,19 @@ import javax.persistence.Column;
 import java.time.LocalDateTime;
 
 public class EconomicSector {
-    private String id;
+    private Integer id;
     private String name;
     private String userCreated;
     private String userUpdated;
     private LocalDateTime dateCreation;
     private LocalDateTime dateUpdated;
 
-    public String getId() {
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

@@ -1,17 +1,15 @@
 package com.oefa.backend.persistence.entity;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import java.sql.Timestamp;
+import javax.persistence.*;
 import java.time.LocalDateTime;
-
+@Entity
+@Table(name = "T_MAP_SECTOR_ECONOMICO")
 public class SectorEconomico {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="economic_sec")
+    @SequenceGenerator(name="economic_sec", sequenceName="economic_sec", allocationSize=0)
     @Column(name = "CODIGO_SECTOR")
-    private String codigoSector;
+    private Integer codigoSector;
 
     @Column(name = "NOMBRE_SECTOR")
     private String nombreSector;
@@ -28,11 +26,11 @@ public class SectorEconomico {
     @Column(name = "FECHA_ACTUALIZA_AUDITORIA")
     private LocalDateTime fechaActualizacion;
 
-    public String getCodigoSector() {
+    public Integer getCodigoSector() {
         return codigoSector;
     }
 
-    public void setCodigoSector(String codigoSector) {
+    public void setCodigoSector(Integer codigoSector) {
         this.codigoSector = codigoSector;
     }
 
