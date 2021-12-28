@@ -10,6 +10,16 @@ public class Specialty {
     private String userUpdated;
     private LocalDateTime dateCreated;
 
+    public LocalDateTime getDateUpdated() {
+        return dateUpdated;
+    }
+
+    public void setDateUpdated(LocalDateTime dateUpdated) {
+        this.dateUpdated = dateUpdated;
+    }
+
+    private LocalDateTime dateUpdated;
+
     public String getUserUpdated() {
         return userUpdated;
     }

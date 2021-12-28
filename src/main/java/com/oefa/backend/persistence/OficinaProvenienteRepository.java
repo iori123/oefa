@@ -31,7 +31,10 @@ public class OficinaProvenienteRepository implements OfficeFromRepository {
     public Optional<OfficeFrom> getOfficeFrom(Integer id) {
         return oficinaProvenienteCrudRepository.findById(id).map(oficina -> mapper.toOfficeFrom(oficina));
     }
-
+    @Override
+    public Optional<OfficeFrom> getOfficeFromByName(String name) {
+        return oficinaProvenienteCrudRepository.findBynombreOficina(name).map(oficina -> mapper.toOfficeFrom(oficina));
+    }
     @Override
     public OfficeFrom save(OfficeFrom officeFrom) {
         OficinaProveniente oficinaProveniente = mapper.toOficinaProveniente(officeFrom);

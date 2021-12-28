@@ -28,6 +28,10 @@ public class EspecialidadRepository implements SpecialtyRepository  {
     public Optional<Specialty> getSpecialty(Integer id) {
         return especialidadCrudRepository.findById(id).map(especialidad -> mapper.toSpecialty(especialidad));
     }
+    @Override
+    public Optional<Specialty> getSpecialtyByName(String name) {
+        return especialidadCrudRepository.findBynombreEspecialidad(name).map(especialidad -> mapper.toSpecialty(especialidad));
+    }
 
     @Override
     public Specialty save(Specialty specialty) {
@@ -38,4 +42,5 @@ public class EspecialidadRepository implements SpecialtyRepository  {
     public void delete( Integer idEspecialidad) {
         especialidadCrudRepository.deleteById(idEspecialidad);
     }
+
 }

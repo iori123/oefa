@@ -8,6 +8,7 @@ import java.util.Optional;
 public interface SpecialtyRepository {
     List<Specialty> getAll();
     Optional<Specialty> getSpecialty(Integer id);
+    Optional<Specialty> getSpecialtyByName(String name);
     Specialty save( Specialty specialty);
     void delete( Integer id);
 }

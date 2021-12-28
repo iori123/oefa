@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/specialties")
@@ -39,9 +40,51 @@ public class SpecialtyController {
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
     @PostMapping
-    public ResponseEntity<Specialty> save( @RequestBody Specialty specialty) {
+    @ApiOperation("Inserta una Especialidad")
+    @ApiResponses({
+            @ApiResponse(code = 201 , message = "CREATED"),
+            @ApiResponse(code = 400 , message = "BAD REQUEST YA SE REGISTRO ESTE NOMBRE DE ESPECIALIDAD")
+    })
+    public ResponseEntity save( @RequestBody Specialty specialty) {
+        if(specialtyService.getSpecialtyByName(specialty.getName()).isPresent()){
+            return new ResponseEntity<String>("YA SE REGISTRO", HttpStatus.BAD_REQUEST);
+        }
         specialty.setDateCreated(LocalDateTime.now());
-        return new ResponseEntity<>(specialtyService.save(specialty), HttpStatus.CREATED);
+        return new ResponseEntity<Specialty>(specialtyService.save(specialty), HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{id}")
+    @ApiOperation("Update Specialty")
+    @ApiResponses({
+            @ApiResponse(code = 200 , message = "OK"),
+            @ApiResponse(code = 400 , message = "BAD REQUEST YA SE REGISTRO ESTE NOMBRE DE ESPECIALIDAD")
+    })
+
+
+    public ResponseEntity update( @RequestBody Specialty specialty, @ApiParam(value = "id of the Specialty" , required = true, example = "12") @PathVariable("id") Integer id) {
+        if( !specialtyService.getSpecialty(id).isPresent())
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        if(specialty.getUserUpdated().isEmpty())
+            return new ResponseEntity<String>("userCreated required", HttpStatus.BAD_REQUEST);
+        if(specialty.getName().isEmpty())
+            return new ResponseEntity<String>("name required", HttpStatus.BAD_REQUEST);
+
+        Optional<Specialty> specialtyBD = specialtyService.getSpecialtyByName(specialty.getName());
+        if(specialtyBD.isPresent()){
+            if(specialtyBD.get().getId() == id) {
+                Specialty specialtyObj = specialtyService.getSpecialty(id).get();
+                specialtyObj.setName(specialty.getName());
+                specialtyObj.setUserUpdated(specialty.getUserUpdated());
+                specialtyObj.setDateUpdated(LocalDateTime.now());
+                return new ResponseEntity<Specialty>(specialtyService.save(specialtyObj), HttpStatus.OK);
+            }
+            return new ResponseEntity<String>("YA SE REGISTRO", HttpStatus.BAD_REQUEST);
+        }
+        Specialty specialtyObj = specialtyService.getSpecialty(id).get();
+        specialtyObj.setName(specialty.getName());
+        specialtyObj.setUserUpdated(specialty.getUserUpdated());
+        specialtyObj.setDateUpdated(LocalDateTime.now());
+        return new ResponseEntity<Specialty>(specialtyService.save(specialtyObj), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

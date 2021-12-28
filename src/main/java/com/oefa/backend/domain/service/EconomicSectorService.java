@@ -1,6 +1,7 @@
 package com.oefa.backend.domain.service;
 
 import com.oefa.backend.domain.EconomicSector;
+import com.oefa.backend.domain.OfficeFrom;
 import com.oefa.backend.domain.Specialty;
 import com.oefa.backend.domain.repository.EconomicSectorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,8 @@ public class EconomicSectorService {
     public Optional<EconomicSector> getEconomicSector(Integer id) {
         return economicSectorRepository.getEconomicSector(id);
     }
+    public Optional<EconomicSector> getEconomicSectorByName(String name) {return economicSectorRepository.getEconomicSectorByName(name);}
+
     public EconomicSector save( EconomicSector economicSector) {
         return economicSectorRepository.save(economicSector);
     }

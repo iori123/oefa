@@ -15,7 +15,9 @@ public interface EconomicSectorMapper {
             @Mapping(source = "nombreSector", target = "name"),
             @Mapping(source = "usuarioCrea", target = "userCreated"),
             @Mapping(source = "usuarioActualiza", target = "userUpdated"),
-            @Mapping(source = "fechaCreacion", target = "dateCreation")
+            @Mapping(source = "fechaCreacion", target = "dateCreation"),
+            @Mapping(source = "fechaActualizacion", target = "dateUpdated")
+
 
 
     })
@@ -23,8 +25,5 @@ public interface EconomicSectorMapper {
     List<EconomicSector> toEconomicSectors(List<SectorEconomico> sectoresEconomicos);
 
     @InheritInverseConfiguration
-    @Mappings({
-            @Mapping(target = "fechaActualizacion", ignore = true),
-    })
     SectorEconomico toSectorEconomico ( EconomicSector economicSector);
 }

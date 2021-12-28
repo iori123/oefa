@@ -19,6 +19,8 @@ public class SpecialtyService {
     public Optional<Specialty> getSpecialty( Integer id) {
         return specialtyRepository.getSpecialty(id);
     }
+    public Optional<Specialty> getSpecialtyByName( String name) {return specialtyRepository.getSpecialtyByName(name);}
+
     public Specialty save( Specialty specialty) {
         return specialtyRepository.save(specialty);
     }

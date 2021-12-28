@@ -17,15 +17,14 @@ public interface OfficeFromMapper {
             @Mapping(source = "direccionOficina", target = "direction"),
             @Mapping(source = "usuarioCrea", target = "userCreated"),
             @Mapping(source = "usuarioActualiza", target = "userUpdated"),
-            @Mapping(source = "fechaCreacion", target = "dateCreated")
+            @Mapping(source = "fechaCreacion", target = "dateCreated"),
+            @Mapping(source = "fechaActualizacion", target = "dateUpdated")
+
 
 
     })
     OfficeFrom toOfficeFrom(OficinaProveniente oficinaProveniente);
     List<OfficeFrom> toOfficesFrom(List<OficinaProveniente> oficinasProvenientes);
     @InheritInverseConfiguration
-    @Mappings({
-            @Mapping(target = "fechaActualizacion", ignore = true),
-    })
     OficinaProveniente toOficinaProveniente ( OfficeFrom officeFrom);
 }

@@ -16,15 +16,14 @@ public interface SpecialtyMapper {
             @Mapping(source = "nombreEspecialidad", target = "name"),
             @Mapping(source = "usuarioCrea", target = "userCreated"),
             @Mapping(source = "usuarioActualiza", target = "userUpdated"),
-            @Mapping(source = "fechaCreacion", target = "dateCreated")
+            @Mapping(source = "fechaCreacion", target = "dateCreated"),
+            @Mapping(source = "fechaActualizacion", target = "dateUpdated")
 
 
     })
     Specialty toSpecialty(Especialidad especialidad);
     List<Specialty> toSpecialtys(List<Especialidad> especialidades);
     @InheritInverseConfiguration
-    @Mappings({
-            @Mapping(target = "fechaActualizacion", ignore = true),
-    })
+
     Especialidad toEspecialidad ( Specialty specialty);
 }

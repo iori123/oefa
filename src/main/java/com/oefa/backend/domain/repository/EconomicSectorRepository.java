@@ -8,6 +8,7 @@ import java.util.Optional;
 public interface EconomicSectorRepository {
     List<EconomicSector> getAll();
     Optional<EconomicSector> getEconomicSector(Integer id);
+    Optional<EconomicSector> getEconomicSectorByName(String name);
     EconomicSector save( EconomicSector economicSector);
     void delete( Integer id);
 }

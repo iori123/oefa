@@ -1,6 +1,7 @@
 package com.oefa.backend.domain.service;
 
 import com.oefa.backend.domain.OfficeFrom;
+import com.oefa.backend.domain.Specialty;
 import com.oefa.backend.domain.repository.OfficeFromRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,8 @@ public class OfficeFromService {
     public Optional<OfficeFrom> getOfficeFrom(Integer id) {
         return officeFromRepository.getOfficeFrom(id);
     }
+    public Optional<OfficeFrom> getOfficeFromByName(String name) {return officeFromRepository.getOfficeFromByName(name);}
+
     public OfficeFrom save( OfficeFrom officeFrom) {
         return officeFromRepository.save(officeFrom);
     }

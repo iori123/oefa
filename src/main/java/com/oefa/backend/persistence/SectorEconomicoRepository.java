@@ -1,6 +1,7 @@
 package com.oefa.backend.persistence;
 
 import com.oefa.backend.domain.EconomicSector;
+import com.oefa.backend.domain.OfficeFrom;
 import com.oefa.backend.domain.Specialty;
 import com.oefa.backend.domain.repository.EconomicSectorRepository;
 import com.oefa.backend.persistence.crud.EspecialidadCrudRepository;
@@ -25,7 +26,10 @@ public class SectorEconomicoRepository implements EconomicSectorRepository {
         List<SectorEconomico> sectoresEconomicos = (List<SectorEconomico>) sectorEconomicoCrudRepository.findAll();
         return mapper.toEconomicSectors(sectoresEconomicos);
     }
-
+    @Override
+    public Optional<EconomicSector> getEconomicSectorByName(String name) {
+        return sectorEconomicoCrudRepository.findBynombreSector(name).map(sectorEconomico -> mapper.toEconomicSector(sectorEconomico));
+    }
     @Override
     public Optional<EconomicSector> getEconomicSector(Integer id) {
         return sectorEconomicoCrudRepository.findById(id).map(sectorEconomico -> mapper.toEconomicSector(sectorEconomico));
