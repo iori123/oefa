@@ -7,6 +7,7 @@ import java.util.Optional;
 
 public interface VocalRepository {
     List<Vocal> getAll();
+    List<Vocal> getAllVocals(String fullName);
     Optional<Vocal> getVocal(Integer id);
     Vocal save( Vocal vocal);
     void delete( Integer id);

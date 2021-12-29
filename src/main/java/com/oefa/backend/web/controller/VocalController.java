@@ -1,6 +1,7 @@
 package com.oefa.backend.web.controller;
 
 import com.oefa.backend.domain.Vocal;
+import com.oefa.backend.domain.dto.search.SearchDTO;
 import com.oefa.backend.domain.service.SpecialtyService;
 import com.oefa.backend.domain.service.VocalService;
 import io.swagger.annotations.ApiOperation;
@@ -40,6 +41,15 @@ public class VocalController {
         return vocalService.getVocal(id)
                 .map(vocal -> new ResponseEntity<>(vocal, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+    @GetMapping("/search")
+    @ApiOperation("Search Vocal with an fullName")
+    @ApiResponses({
+            @ApiResponse(code = 200 , message = "OK"),
+            @ApiResponse(code = 404 , message = "Vocal not found")
+    })
+    public ResponseEntity save( @RequestBody SearchDTO search ) {
+        return  new ResponseEntity<>(vocalService.getAllByName(search.getKeyword()), HttpStatus.OK);
     }
 
     @PostMapping

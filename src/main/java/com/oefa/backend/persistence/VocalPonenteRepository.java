@@ -26,6 +26,12 @@ public class VocalPonenteRepository implements VocalRepository {
     }
 
     @Override
+    public List<Vocal> getAllVocals(String fullName) {
+        List<VocalPonente> vocales = (List<VocalPonente>)vocalPonenteCrudRepository.findByNombreCompletoContainingIgnoreCase(fullName);
+        return mapper.toVocals(vocales);
+    }
+
+    @Override
     public Optional<Vocal> getVocal(Integer id) {
         return vocalPonenteCrudRepository.findById(id).map(vocalPonente -> mapper.toVocal(vocalPonente));
     }
@@ -33,6 +39,7 @@ public class VocalPonenteRepository implements VocalRepository {
     public Vocal save(Vocal vocal) {
         VocalPonente vocalPonente = mapper.toVocalPonente(vocal);
         vocalPonente.getEspecialidades().forEach(especialidad -> especialidad.setVocalPonente(vocalPonente));
+        vocalPonente.setNombreCompleto(vocal.getNames() + " "+ vocal.getLastName());
         return mapper.toVocal(vocalPonenteCrudRepository.save(vocalPonente));
     }
     @Override

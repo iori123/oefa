@@ -26,5 +26,8 @@ public interface VocalMapper {
     List<Vocal> toVocals(List<VocalPonente> vocalesPonentes);
 
     @InheritInverseConfiguration
+    @Mappings({
+            @Mapping(target = "nombreCompleto", ignore = true),
+    })
     VocalPonente toVocalPonente ( Vocal vocal);
 }

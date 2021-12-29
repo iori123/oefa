@@ -19,6 +19,9 @@ public class VocalPonente {
     @Column(name = "APELLIDOS")
     private String apellidos;
 
+    @Column(name = "NOMBRE_COMPLETO")
+    private String nombreCompleto;
+
     @Column(name = "CORREO")
     private String correo;
 
@@ -110,6 +113,14 @@ public class VocalPonente {
 
     public void setFechaActualizacion(LocalDateTime fechaActualizacion) {
         this.fechaActualizacion = fechaActualizacion;
+    }
+
+    public String getNombreCompleto() {
+        return nombreCompleto;
+    }
+
+    public void setNombreCompleto(String nombreCompleto) {
+        this.nombreCompleto = nombreCompleto;
     }
 
     public List<VocalEspecialidad> getEspecialidades() {

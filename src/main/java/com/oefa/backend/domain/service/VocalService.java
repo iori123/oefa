@@ -15,6 +15,11 @@ public class VocalService {
     public List<Vocal> getAll() {
         return vocalRepository.getAll();
     }
+
+    public List<Vocal> getAllByName(String fullName) {
+        return vocalRepository.getAllVocals(fullName);
+    }
+
     public Optional<Vocal> getVocal(Integer id) {
         return vocalRepository.getVocal(id);
     }
@@ -23,6 +28,12 @@ public class VocalService {
         return vocalRepository.save(vocal);
     }
     public boolean delete( Integer id) {
+        return getVocal(id).map( specialty -> {
+            vocalRepository.delete(id);
+            return true ;
+        }).orElse(false);
+    }
+    public boolean deleteSpecialties( Integer id) {
         return getVocal(id).map( specialty -> {
             vocalRepository.delete(id);
             return true ;
