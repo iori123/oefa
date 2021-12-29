@@ -10,6 +10,7 @@ public class Specialty {
     private String userUpdated;
     private LocalDateTime dateCreated;
 
+
     public LocalDateTime getDateUpdated() {
         return dateUpdated;
     }

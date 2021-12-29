@@ -36,8 +36,6 @@ public class Especialidad {
     @Column(name = "FECHA_ACTUALIZA_AUDITORIA")
     private LocalDateTime fechaActualizacion;
 
-
-
     public String getNombreEspecialidad() {
         return nombreEspecialidad;
     }

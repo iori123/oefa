@@ -7,24 +7,24 @@ import java.io.Serializable;
 @Embeddable
 public class VocalEspecialidadPK implements Serializable {
     @Column(name = "CODIGO_VOCAL")
-    private String codigoVocal;
+    private Integer codigoVocal;
 
     @Column(name = "CODIGO_ESPECIALIDAD")
-    private String codigoEspecialidad;
+    private Integer codigoEspecialidad;
 
-    public String getCodigoVocal() {
+    public Integer getCodigoVocal() {
         return codigoVocal;
     }
 
-    public void setCodigoVocal(String codigoVocal) {
+    public void setCodigoVocal(Integer codigoVocal) {
         this.codigoVocal = codigoVocal;
     }
 
-    public String getCodigoEspecialidad() {
+    public Integer getCodigoEspecialidad() {
         return codigoEspecialidad;
     }
 
-    public void setCodigoEspecialidad(String codigoEspecialidad) {
+    public void setCodigoEspecialidad(Integer codigoEspecialidad) {
         this.codigoEspecialidad = codigoEspecialidad;
     }
 }

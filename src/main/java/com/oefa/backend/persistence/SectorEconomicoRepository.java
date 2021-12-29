@@ -1,10 +1,8 @@
 package com.oefa.backend.persistence;
 
 import com.oefa.backend.domain.EconomicSector;
-import com.oefa.backend.domain.OfficeFrom;
-import com.oefa.backend.domain.Specialty;
+
 import com.oefa.backend.domain.repository.EconomicSectorRepository;
-import com.oefa.backend.persistence.crud.EspecialidadCrudRepository;
 import com.oefa.backend.persistence.crud.SectorEconomicoCrudRepository;
 import com.oefa.backend.persistence.entity.Especialidad;
 import com.oefa.backend.persistence.entity.SectorEconomico;

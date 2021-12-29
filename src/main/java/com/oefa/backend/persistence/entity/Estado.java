@@ -54,8 +54,5 @@ public class Estado {
         this.fechaCreacion = fechaCreacion;
     }
 
-    @OneToMany(mappedBy = "estado")
-    private List<VocalPonente> vocales;
-
 
 }
