@@ -24,6 +24,7 @@ public interface VocalMapper {
     })
     Vocal toVocal(VocalPonente vocalPonente);
     List<Vocal> toVocals(List<VocalPonente> vocalesPonentes);
+
     @InheritInverseConfiguration
     VocalPonente toVocalPonente ( Vocal vocal);
 }

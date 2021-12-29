@@ -5,10 +5,11 @@ import java.time.LocalDateTime;
 import java.util.List;
 @Entity
 @Table(name = "T_MAP_VOCAL_PONENTE")
+@SequenceGenerator(name="N", sequenceName="vocal_sec", allocationSize=1)
+
 public class VocalPonente {
     @Id
-    @GeneratedValue(strategy= GenerationType.SEQUENCE, generator="vocal_sec")
-    @SequenceGenerator(name="vocal_sec", sequenceName="vocal_sec", allocationSize=0)
+    @GeneratedValue(generator="N")
     @Column(name = "CODIGO_VOCAL")
     private Integer codigoVocal;
 

@@ -7,7 +7,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 
-@Mapper( componentModel = "spring")
+@Mapper( componentModel = "spring", uses = {SpecialtyMapper.class})
 public interface SpecialtyVocalMapper {
     @Mappings({
             @Mapping(source = "codigoVocalEspecialidad.codigoEspecialidad", target = "specialtyId"),

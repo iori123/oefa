@@ -59,8 +59,6 @@ public class SpecialtyController {
             @ApiResponse(code = 200 , message = "OK"),
             @ApiResponse(code = 400 , message = "BAD REQUEST YA SE REGISTRO ESTE NOMBRE DE ESPECIALIDAD")
     })
-
-
     public ResponseEntity update( @RequestBody Specialty specialty, @ApiParam(value = "id of the Specialty" , required = true, example = "12") @PathVariable("id") Integer id) {
         if( !specialtyService.getSpecialty(id).isPresent())
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
