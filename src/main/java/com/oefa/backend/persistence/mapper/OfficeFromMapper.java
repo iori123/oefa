@@ -15,6 +15,7 @@ public interface OfficeFromMapper {
             @Mapping(source = "codigoOficina", target = "id"),
             @Mapping(source = "nombreOficina", target = "name"),
             @Mapping(source = "direccionOficina", target = "direction"),
+            @Mapping(source = "abrebiatura", target = "abreviature"),
             @Mapping(source = "usuarioCrea", target = "userCreated"),
             @Mapping(source = "usuarioActualiza", target = "userUpdated"),
             @Mapping(source = "fechaCreacion", target = "dateCreated"),

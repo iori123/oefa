@@ -7,10 +7,19 @@ public class OfficeFrom {
     private Integer id;
     private String name;
     private String direction;
+    private String abreviature;
     private String userCreated;
     private LocalDateTime dateCreated;
     private String userUpdated;
     private  LocalDateTime dateUpdated;
+
+    public String getAbreviature() {
+        return abreviature;
+    }
+
+    public void setAbreviature(String abreviature) {
+        this.abreviature = abreviature;
+    }
 
     public Integer getId() {
         return id;

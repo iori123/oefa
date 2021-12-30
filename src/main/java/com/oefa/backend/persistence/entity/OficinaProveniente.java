@@ -19,6 +19,9 @@ public class OficinaProveniente {
     @Column(name = "DIRECCION_OFICINA")
     private String direccionOficina;
 
+    @Column(name = "ABREBIATURA")
+    private String abrebiatura;
+
     @Column(name = "USUARIO_CREA_AUDITORIA")
     private String usuarioCrea;
 
@@ -33,6 +36,14 @@ public class OficinaProveniente {
 
     @OneToMany(mappedBy = "oficinaProveniente")
     private List<Expediente> expedientes;
+
+    public String getAbrebiatura() {
+        return abrebiatura;
+    }
+
+    public void setAbrebiatura(String abrebiatura) {
+        this.abrebiatura = abrebiatura;
+    }
 
     public List<Expediente> getExpedientes() {
         return expedientes;

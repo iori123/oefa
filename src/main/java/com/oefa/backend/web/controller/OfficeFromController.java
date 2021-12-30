@@ -76,6 +76,7 @@ public class OfficeFromController {
                 officeFromObj.setName(officeFrom.getName());
                 officeFromObj.setUserUpdated(officeFrom.getUserUpdated());
                 officeFromObj.setDirection(officeFrom.getDirection());
+                officeFromObj.setAbreviature(officeFrom.getAbreviature());
                 officeFromObj.setDateUpdated(LocalDateTime.now());
                 return new ResponseEntity<OfficeFrom>(officeFromService.save(officeFromObj), HttpStatus.OK);
             }
@@ -84,6 +85,7 @@ public class OfficeFromController {
         OfficeFrom officeFromObj = officeFromService.getOfficeFrom(id).get();
         officeFromObj.setName(officeFrom.getName());
         officeFromObj.setDirection(officeFrom.getDirection());
+        officeFromObj.setAbreviature(officeFrom.getAbreviature());
         officeFromObj.setUserUpdated(officeFrom.getUserUpdated());
         officeFromObj.setDateUpdated(LocalDateTime.now());
         return new ResponseEntity<OfficeFrom>(officeFromService.save(officeFromObj), HttpStatus.OK);
