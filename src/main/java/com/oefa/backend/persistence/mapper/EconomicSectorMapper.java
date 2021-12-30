@@ -25,5 +25,6 @@ public interface EconomicSectorMapper {
     List<EconomicSector> toEconomicSectors(List<SectorEconomico> sectoresEconomicos);
 
     @InheritInverseConfiguration
+    @Mapping(target = "expedientes", ignore = true)
     SectorEconomico toSectorEconomico ( EconomicSector economicSector);
 }

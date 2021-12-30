@@ -1,7 +1,6 @@
 package com.oefa.backend.persistence.entity;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -9,9 +8,8 @@ import java.util.List;
 @Table(name = "T_MAP_ESTADO")
 public class Estado {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "CODIGO_ESTADO")
-    private String codigoEstado;
+    private Integer codigoEstado;
 
     @Column(name = "NOMBRE_ESTADO")
     private String nombreEstado;
@@ -19,14 +17,25 @@ public class Estado {
     @Column(name = "TIPO_ESTADO")
     private String tipoEstado;
 
-    @Column(name = "FECHA_CREA_ESTADO")
+    @Column(name = "FECHA_CREA_AUDITORIA")
     private LocalDateTime fechaCreacion;
 
-    public String getCodigoEstado() {
+    @OneToMany(mappedBy = "estado")
+    private List<Expediente> expedientes;
+
+    public List<Expediente> getExpedientes() {
+        return expedientes;
+    }
+
+    public void setExpedientes(List<Expediente> expedientes) {
+        this.expedientes = expedientes;
+    }
+
+    public Integer getCodigoEstado() {
         return codigoEstado;
     }
 
-    public void setCodigoEstado(String codigoEstado) {
+    public void setCodigoEstado(Integer codigoEstado) {
         this.codigoEstado = codigoEstado;
     }
 

@@ -2,6 +2,8 @@ package com.oefa.backend.persistence.entity;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
+
 @Entity
 @Table(name = "T_MAP_SECTOR_ECONOMICO")
 public class SectorEconomico {
@@ -25,6 +27,17 @@ public class SectorEconomico {
 
     @Column(name = "FECHA_ACTUALIZA_AUDITORIA")
     private LocalDateTime fechaActualizacion;
+
+    @OneToMany(mappedBy = "sectorEconomico")
+    private List<Expediente> expedientes;
+
+    public List<Expediente> getExpedientes() {
+        return expedientes;
+    }
+
+    public void setExpedientes(List<Expediente> expedientes) {
+        this.expedientes = expedientes;
+    }
 
     public Integer getCodigoSector() {
         return codigoSector;

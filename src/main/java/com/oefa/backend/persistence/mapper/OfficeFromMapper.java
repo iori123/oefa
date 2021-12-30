@@ -26,5 +26,6 @@ public interface OfficeFromMapper {
     OfficeFrom toOfficeFrom(OficinaProveniente oficinaProveniente);
     List<OfficeFrom> toOfficesFrom(List<OficinaProveniente> oficinasProvenientes);
     @InheritInverseConfiguration
+    @Mapping(target = "expedientes", ignore = true)
     OficinaProveniente toOficinaProveniente ( OfficeFrom officeFrom);
 }
