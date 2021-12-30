@@ -27,6 +27,15 @@ public class Expediente {
     @Column(name = "MEMORANDUM")
     private String memorandum;
 
+    @Column(name = "HOJA_TRAMITE")
+    private String hojaTramite;
+
+    @Column(name = "ADMINISTRADO")
+    private String administrado;
+
+    @Column(name = "DOCUMENTO_ELEVACION")
+    private String documentoElevacion;
+
     @Column(name = "DESCRIPCION")
     private String descripcion;
 
@@ -68,6 +77,29 @@ public class Expediente {
     @JoinColumn(name = "CODIGO_SECTOR", insertable = false, updatable = false)
     private SectorEconomico sectorEconomico;
 
+    public String getHojaTramite() {
+        return hojaTramite;
+    }
+
+    public void setHojaTramite(String hojaTramite) {
+        this.hojaTramite = hojaTramite;
+    }
+
+    public String getAdministrado() {
+        return administrado;
+    }
+
+    public void setAdministrado(String administrado) {
+        this.administrado = administrado;
+    }
+
+    public String getDocumentoElevacion() {
+        return documentoElevacion;
+    }
+
+    public void setDocumentoElevacion(String documentoElevacion) {
+        this.documentoElevacion = documentoElevacion;
+    }
 
     public Integer getCodigoExpediente() {
         return codigoExpediente;

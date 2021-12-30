@@ -11,6 +11,9 @@ public class Proceding {
     private String direction;
     private String memorandum;
     private String description;
+    private String administrate;
+    private String docElevation;
+    private String roadMap;
     private LocalDateTime dateReception;
     private LocalDateTime dateAttention;
     private String userCreated;
@@ -25,6 +28,30 @@ public class Proceding {
     private Condition condition;
     private OfficeFrom officeFrom;
     private EconomicSector economicSector;
+
+    public String getAdministrate() {
+        return administrate;
+    }
+
+    public void setAdministrate(String administrate) {
+        this.administrate = administrate;
+    }
+
+    public String getDocElevation() {
+        return docElevation;
+    }
+
+    public void setDocElevation(String docElevation) {
+        this.docElevation = docElevation;
+    }
+
+    public String getRoadMap() {
+        return roadMap;
+    }
+
+    public void setRoadMap(String roadMap) {
+        this.roadMap = roadMap;
+    }
 
     public Integer getId() {
         return id;

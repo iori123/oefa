@@ -18,7 +18,11 @@ public interface ProcedingMapper {
             @Mapping(source = "ruc", target = "ruc"),
             @Mapping(source = "razonSocial", target = "socialReason"),
             @Mapping(source = "domicilio", target = "direction"),
+            @Mapping(source = "administrado", target = "administrate"),
+            @Mapping(source = "hojaTramite", target = "roadMap"),
+            @Mapping(source = "documentoElevacion", target = "docElevation"),
             @Mapping(source = "memorandum", target = "memorandum"),
+
             @Mapping(source = "descripcion", target = "description"),
             @Mapping(source = "fechaAtencion", target = "dateAttention"),
             @Mapping(source = "fechaRecepcion", target = "dateReception"),

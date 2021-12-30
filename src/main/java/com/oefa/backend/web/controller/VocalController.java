@@ -82,6 +82,7 @@ public class VocalController {
             vocal.setId(id);
             vocal.setDateCreated(vocalObj.getDateCreated());
             vocal.setDateUpdated(LocalDateTime.now());
+            vocal.setUserCreated(vocalObj.getUserCreated());
             vocal.setUserUpdated(vocal.getUserUpdated());
             vocal.getSpecialties().forEach( specialty -> {
                 specialty.setDateCreated(LocalDateTime.now());
