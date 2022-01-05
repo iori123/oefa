@@ -1,6 +1,5 @@
 package com.oefa.backend.web.controller;
 
-import com.oefa.backend.domain.OfficeFrom;
 import com.oefa.backend.domain.Proceding;
 import com.oefa.backend.domain.service.ProcedingService;
 import io.swagger.annotations.ApiOperation;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/procedings")
@@ -57,7 +55,8 @@ public class ProcedingController {
             @ApiResponse(code = 200 , message = "OK"),
             @ApiResponse(code = 400 , message = "BAD REQUEST")
     })
-    public ResponseEntity update(@RequestBody Proceding proceding, @ApiParam(value = "id of the proceding" , required = true, example = "12") @PathVariable("id") Integer id) {
+    public ResponseEntity update(@RequestBody Proceding proceding,
+                                 @ApiParam(value = "id of the proceding" , required = true, example = "12") @PathVariable("id") Integer id) {
         if( !procedingService.getProceding(id).isPresent())
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         if(proceding.getUserUpdated().isEmpty())

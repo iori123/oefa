@@ -6,6 +6,8 @@ public class Condition {
     private Integer id;
     private String name;
     private String type;
+    private String color;
+
     private LocalDateTime dateCreated;
 
     public Integer getId() {
@@ -30,6 +32,14 @@ public class Condition {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 
     public LocalDateTime getDateCreated() {

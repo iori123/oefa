@@ -17,7 +17,8 @@ public interface SpecialtyMapper {
             @Mapping(source = "usuarioCrea", target = "userCreated"),
             @Mapping(source = "usuarioActualiza", target = "userUpdated"),
             @Mapping(source = "fechaCreacion", target = "dateCreated"),
-            @Mapping(source = "fechaActualizacion", target = "dateUpdated")
+            @Mapping(source = "fechaActualizacion", target = "dateUpdated"),
+
     })
     Specialty toSpecialty(Especialidad especialidad);
     List<Specialty> toSpecialtys(List<Especialidad> especialidades);

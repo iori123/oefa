@@ -17,6 +17,7 @@ public interface StateMapper {
             @Mapping(source = "codigoEstado", target = "id"),
             @Mapping(source = "nombreEstado", target = "name"),
             @Mapping(source = "tipoEstado", target = "type"),
+            @Mapping(source = "color", target = "color"),
             @Mapping(source = "fechaCreacion", target = "dateCreated"),
 
     })

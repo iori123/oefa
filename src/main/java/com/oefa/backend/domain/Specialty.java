@@ -2,6 +2,7 @@ package com.oefa.backend.domain;
 
 import javax.persistence.Column;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class Specialty {
     private Integer id;

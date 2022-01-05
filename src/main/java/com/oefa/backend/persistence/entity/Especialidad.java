@@ -3,6 +3,7 @@ package com.oefa.backend.persistence.entity;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "T_MAP_ESPECIALIDAD")
@@ -35,6 +36,17 @@ public class Especialidad {
 
     @Column(name = "FECHA_ACTUALIZA_AUDITORIA")
     private LocalDateTime fechaActualizacion;
+
+    @OneToMany(mappedBy = "especialidad" ,cascade = {CascadeType.ALL})
+    private List<VocalEspecialidad> vocales;
+
+    public List<VocalEspecialidad> getVocales() {
+        return vocales;
+    }
+
+    public void setVocales(List<VocalEspecialidad> vocales) {
+        this.vocales = vocales;
+    }
 
     public String getNombreEspecialidad() {
         return nombreEspecialidad;

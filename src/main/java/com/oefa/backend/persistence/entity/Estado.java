@@ -17,11 +17,22 @@ public class Estado {
     @Column(name = "TIPO_ESTADO")
     private String tipoEstado;
 
+    @Column(name = "COLOR")
+    private String color;
+
     @Column(name = "FECHA_CREA_AUDITORIA")
     private LocalDateTime fechaCreacion;
 
     @OneToMany(mappedBy = "estado")
     private List<Expediente> expedientes;
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
 
     public List<Expediente> getExpedientes() {
         return expedientes;
