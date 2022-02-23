@@ -9,6 +9,7 @@ public class Vocal {
     private String lastName;
     private String email;
     private String state;
+    private String dni;
     private String userCreated;
     private String userUpdated;
     private LocalDateTime dateCreated;
@@ -54,6 +55,14 @@ public class Vocal {
 
     public void setState(String state) {
         this.state = state;
+    }
+
+    public String getDni() {
+        return dni;
+    }
+
+    public void setDni(String dni) {
+        this.dni = dni;
     }
 
     public String getUserCreated() {

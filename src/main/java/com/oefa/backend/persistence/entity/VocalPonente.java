@@ -28,6 +28,9 @@ public class VocalPonente {
     @Column(name = "ESTADO")
     private String estado;
 
+    @Column(name = "DNI")
+    private String dni;
+
     @Column(name = "USUARIO_CREA_AUDITORIA")
     private String usuarioCrea;
 
@@ -81,6 +84,14 @@ public class VocalPonente {
 
     public void setEstado(String estado) {
         this.estado = estado;
+    }
+
+    public String getDni() {
+        return dni;
+    }
+
+    public void setDni(String dni) {
+        this.dni = dni;
     }
 
     public String getUsuarioCrea() {

@@ -16,6 +16,7 @@ public interface VocalMapper {
             @Mapping(source = "apellidos", target = "lastName"),
             @Mapping(source = "correo", target = "email"),
             @Mapping(source = "estado", target = "state"),
+            @Mapping(source = "dni", target = "dni"),
             @Mapping(source = "usuarioCrea", target = "userCreated"),
             @Mapping(source = "usuarioActualiza", target = "userUpdated"),
             @Mapping(source = "fechaCreacion", target = "dateCreated"),
