@@ -9,7 +9,7 @@ import org.mapstruct.Mappings;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring",  uses = {VocalSpecialtyMapper.class})
 public interface SpecialtyMapper {
     @Mappings({
             @Mapping(source = "codigoEspecialidad", target = "id"),
@@ -18,6 +18,7 @@ public interface SpecialtyMapper {
             @Mapping(source = "usuarioActualiza", target = "userUpdated"),
             @Mapping(source = "fechaCreacion", target = "dateCreated"),
             @Mapping(source = "fechaActualizacion", target = "dateUpdated"),
+            @Mapping(source = "vocales", target = "vocals")
 
     })
     Specialty toSpecialty(Especialidad especialidad);

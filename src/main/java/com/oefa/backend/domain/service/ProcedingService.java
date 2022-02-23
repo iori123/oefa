@@ -15,6 +15,12 @@ public class ProcedingService {
     public List<Proceding> getAll() {
         return procedingRepository.getAll();
     }
+    public Optional<Proceding> getProcedingByNumberProceding (String numberProceding) {
+        return procedingRepository.getProcedingByNumberProceding(numberProceding);
+    }
+    public List<Proceding> getAllByVocalId (Integer id) {
+        return procedingRepository.getAllByVocalId(id);
+    }
     public Optional<Proceding> getProceding(Integer id) {
         return procedingRepository.getProceding(id);
     }

@@ -13,6 +13,7 @@ public class Vocal {
     private String userUpdated;
     private LocalDateTime dateCreated;
     private LocalDateTime dateUpdated;
+
     private List<SpecialtyVocal> specialties;
 
     public Integer getId() {

@@ -1,6 +1,6 @@
 package com.oefa.backend.domain;
 
-import javax.persistence.Column;
+
 import java.time.LocalDateTime;
 
 public class Proceding {
@@ -24,10 +24,28 @@ public class Proceding {
     private Integer conditionId;
     private Integer officeFromId;
     private Integer economicSectorId;
+    private Integer vocalId;
 
     private Condition condition;
     private OfficeFrom officeFrom;
     private EconomicSector economicSector;
+    private Vocal vocal;
+
+    public Integer getVocalId() {
+        return vocalId;
+    }
+
+    public void setVocalId(Integer vocalId) {
+        this.vocalId = vocalId;
+    }
+
+    public Vocal getVocal() {
+        return vocal;
+    }
+
+    public void setVocal(Vocal vocal) {
+        this.vocal = vocal;
+    }
 
     public String getAdministrate() {
         return administrate;

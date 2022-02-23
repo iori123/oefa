@@ -2,13 +2,16 @@ package com.oefa.backend.persistence;
 
 import com.oefa.backend.domain.OfficeFrom;
 import com.oefa.backend.domain.Proceding;
+import com.oefa.backend.domain.Vocal;
 import com.oefa.backend.domain.repository.ProcedingRepository;
 import com.oefa.backend.persistence.crud.ExpedienteCrudRepository;
 import com.oefa.backend.persistence.crud.OficinaProvenienteCrudRepository;
 import com.oefa.backend.persistence.entity.Expediente;
 import com.oefa.backend.persistence.entity.OficinaProveniente;
+import com.oefa.backend.persistence.entity.VocalPonente;
 import com.oefa.backend.persistence.mapper.OfficeFromMapper;
 import com.oefa.backend.persistence.mapper.ProcedingMapper;
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -25,7 +28,16 @@ public class ExpedienteRepository  implements ProcedingRepository {
         List<Expediente> expedientes = (List<Expediente>)expedienteCrudRepository.findAll();
         return mapper.toProcedings(expedientes);
     }
+    @Override
+    public List<Proceding> getAllByVocalId(Integer id) {
+        List<Expediente> expedientes = (List<Expediente>)expedienteCrudRepository.findByCodigoVocal(id);
+        return mapper.toProcedings(expedientes);
 
+    }
+    @Override
+    public Optional<Proceding> getProcedingByNumberProceding(String numberProceding) {
+        return expedienteCrudRepository.findByNumeroExpedienteContainingIgnoreCase(numberProceding).map(oficina -> mapper.toProceding(oficina));
+    }
     @Override
     public Optional<Proceding> getProceding(Integer id) {
         return expedienteCrudRepository.findById(id).map(expediente -> mapper.toProceding(expediente));

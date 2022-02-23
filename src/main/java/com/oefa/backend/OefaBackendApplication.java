@@ -22,6 +22,7 @@ public class OefaBackendApplication  {
 	//protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
 	//	return application.sources(OefaBackendApplication.class);
 	//}
+
 	public static void main(String[] args) {
 		SpringApplication.run(OefaBackendApplication.class, args);
 	}

@@ -10,7 +10,15 @@ public class Specialty {
     private String userCreated;
     private String userUpdated;
     private LocalDateTime dateCreated;
+    private List<VocalSpecialty> vocals;
 
+    public List<VocalSpecialty> getVocals() {
+        return vocals;
+    }
+
+    public void setVocals(List<VocalSpecialty> vocals) {
+        this.vocals = vocals;
+    }
 
     public LocalDateTime getDateUpdated() {
         return dateUpdated;

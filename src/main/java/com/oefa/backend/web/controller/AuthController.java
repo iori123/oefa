@@ -13,7 +13,7 @@ import java.nio.charset.StandardCharsets;
 @RequestMapping("/seguridad")
 public class AuthController {
 
-    @PostMapping("/confirmacion")
+    @PostMapping("/confirmsso2")
     public ResponseEntity<DTOSeguridad> authSeguridad(@RequestBody SeguridadDTO seguridadDTO) {
         try {
             byte[] cadenaEncriptada = seguridadDTO.token.getBytes(StandardCharsets.ISO_8859_1);

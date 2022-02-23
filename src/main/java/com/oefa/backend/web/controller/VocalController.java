@@ -74,8 +74,7 @@ public class VocalController {
             @ApiResponse(code = 200 , message = "OK"),
     })
     public ResponseEntity update(@RequestBody Vocal vocal, @ApiParam(value = "id of the Vocal" , required = true, example = "12") @PathVariable("id") Integer id) {
-        if( !vocalService.getVocal(id).isPresent())
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        if( !vocalService.getVocal(id).isPresent())  return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         Vocal vocalObj = vocalService.getVocal(id).get();
 
         if(vocalService.delete(id)) {

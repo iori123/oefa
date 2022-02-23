@@ -1,7 +1,12 @@
 package com.oefa.backend.web.controller;
 
+import com.oefa.backend.domain.EconomicSector;
 import com.oefa.backend.domain.Proceding;
+import com.oefa.backend.domain.ProcedingVocal;
+import com.oefa.backend.domain.Specialty;
+import com.oefa.backend.domain.service.EconomicSectorService;
 import com.oefa.backend.domain.service.ProcedingService;
+import com.oefa.backend.domain.service.SpecialtyService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
@@ -12,6 +17,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -19,6 +27,10 @@ import java.util.List;
 public class ProcedingController {
     @Autowired
     private ProcedingService procedingService;
+    @Autowired
+    private EconomicSectorService economicSectorService;
+    @Autowired
+    private SpecialtyService specialtyService;
 
     @GetMapping
     @ApiOperation("Retorna la lista de expedientes")
@@ -45,6 +57,31 @@ public class ProcedingController {
             @ApiResponse(code = 400 , message = "BAD REQUEST")
     })
     public ResponseEntity save( @RequestBody Proceding proceding) {
+        if(proceding.getUserCreated().isEmpty())
+            return new ResponseEntity<String>("userCreated required", HttpStatus.BAD_REQUEST);
+        if(proceding.getNumberProceding().isEmpty())
+            return new ResponseEntity<String>("number proceding is required", HttpStatus.BAD_REQUEST);
+
+        if(procedingService.getProcedingByNumberProceding(proceding.getNumberProceding()).isPresent()) {
+            return new ResponseEntity<String>("Ya se registro este numero de expediente", HttpStatus.BAD_REQUEST);
+        }
+        EconomicSector economicSector = economicSectorService.getEconomicSector(proceding.getEconomicSectorId()).get();
+        String nameSpecialty = economicSector.getName();
+        if(!specialtyService.getSpecialtyByName(nameSpecialty).isPresent()) {
+            return new ResponseEntity<String>("no hay existe la especilidad para los vocales", HttpStatus.CONFLICT);
+        }
+        Specialty specialty = specialtyService.getSpecialtyByName(nameSpecialty).get();
+        if( specialty.getVocals().size() == 0) {
+            return new ResponseEntity<String>("no hay vocales disponibles en esta especialidad", HttpStatus.CONFLICT);
+        }
+        List<ProcedingVocal> procedingVocals = new ArrayList<>();
+        specialty.getVocals().forEach( vocal -> {
+            List<Proceding> procedingsForVocal = procedingService.getAllByVocalId(vocal.getVocalId());
+            ProcedingVocal objProcedingsForVocal = new ProcedingVocal(vocal.getVocalId(), procedingsForVocal.size());
+            procedingVocals.add(objProcedingsForVocal);
+        });
+        Collections.sort(procedingVocals);
+        proceding.setVocalId(procedingVocals.get(0).getVocalId());
         proceding.setDateCreation(LocalDateTime.now());
         return new ResponseEntity<Proceding>(procedingService.save(proceding), HttpStatus.CREATED);
     }
@@ -60,7 +97,7 @@ public class ProcedingController {
         if( !procedingService.getProceding(id).isPresent())
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         if(proceding.getUserUpdated().isEmpty())
-            return new ResponseEntity<String>("userCreated required", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<String>("userUpdated required", HttpStatus.BAD_REQUEST);
         if(proceding.getNumberProceding().isEmpty())
             return new ResponseEntity<String>("numero de expediente es requerido", HttpStatus.BAD_REQUEST);
 

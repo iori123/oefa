@@ -63,7 +63,16 @@ public class Expediente {
     private Integer codigoOficina;
     @Column(name = "CODIGO_SECTOR")
     private Integer codigoSector;
+    @Column(name = "CODIGO_VOCAL")
+    private Integer codigoVocal;
 
+    public Integer getCodigoVocal() {
+        return codigoVocal;
+    }
+
+    public void setCodigoVocal(Integer codigoVocal) {
+        this.codigoVocal = codigoVocal;
+    }
 
     @ManyToOne
     @JoinColumn(name = "CODIGO_ESTADO", insertable = false, updatable = false)
@@ -76,6 +85,17 @@ public class Expediente {
     @ManyToOne
     @JoinColumn(name = "CODIGO_SECTOR", insertable = false, updatable = false)
     private SectorEconomico sectorEconomico;
+
+    @ManyToOne
+    @JoinColumn(name = "CODIGO_VOCAL", insertable = false, updatable = false)
+    private VocalPonente vocal;
+
+    public VocalPonente getVocal() {
+        return vocal;
+    }
+    public void setVocal(VocalPonente vocal) {
+        this.vocal = vocal;
+    }
 
     public String getHojaTramite() {
         return hojaTramite;
