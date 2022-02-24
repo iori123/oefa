@@ -13,15 +13,15 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
 
-//public class OefaBackendApplication extends SpringBootServletInitializer {
-public class OefaBackendApplication  {
+public class OefaBackendApplication extends SpringBootServletInitializer {
+//public class OefaBackendApplication  {
 
 	private static  Logger logger = LogManager.getLogger(OefaBackendApplication.class.getName());
 
-	//@Override
-	//protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-	//	return application.sources(OefaBackendApplication.class);
-	//}
+	@Override
+	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+		return application.sources(OefaBackendApplication.class);
+	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(OefaBackendApplication.class, args);

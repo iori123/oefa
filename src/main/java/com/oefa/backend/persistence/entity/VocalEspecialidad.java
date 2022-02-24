@@ -21,7 +21,7 @@ public class VocalEspecialidad {
     private VocalPonente vocalPonente;
 
     @ManyToOne
-    @MapsId("codigoEspecialidad")
+    //@MapsId("codigoEspecialidad")
     @JoinColumn(name = "CODIGO_ESPECIALIDAD", insertable = false, updatable = false)
     private Especialidad especialidad;
 
