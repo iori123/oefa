@@ -1,9 +1,8 @@
 package com.oefa.backend.web.controller;
 
-import com.oefa.backend.domain.EconomicSector;
-import com.oefa.backend.domain.Proceding;
-import com.oefa.backend.domain.ProcedingVocal;
-import com.oefa.backend.domain.Specialty;
+import com.oefa.backend.domain.*;
+import com.oefa.backend.domain.dto.proceding.DocumentDto;
+import com.oefa.backend.domain.service.DocumentService;
 import com.oefa.backend.domain.service.EconomicSectorService;
 import com.oefa.backend.domain.service.ProcedingService;
 import com.oefa.backend.domain.service.SpecialtyService;
@@ -27,6 +26,8 @@ import java.util.List;
 public class ProcedingController {
     @Autowired
     private ProcedingService procedingService;
+    @Autowired
+    private DocumentService documentService;
     @Autowired
     private EconomicSectorService economicSectorService;
     @Autowired
@@ -110,6 +111,14 @@ public class ProcedingController {
         return new ResponseEntity<Proceding>(procedingService.save(proceding), HttpStatus.OK);
     }
 
+
+    @GetMapping ("/document")
+    @ApiOperation("retorna el documento")
+    public ResponseEntity documentProceding(@RequestParam(required = true) String ticket_auth ,@RequestParam(required = true) String ticket_session) {
+        return documentService.getDocumentByTickets(ticket_auth,ticket_session)
+                .map(document1 -> new ResponseEntity<>(document1, HttpStatus.OK))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
 
 
 
