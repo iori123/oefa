@@ -97,18 +97,33 @@ public class ProcedingController {
                                  @ApiParam(value = "id of the proceding" , required = true, example = "12") @PathVariable("id") Integer id) {
         if( !procedingService.getProceding(id).isPresent())
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        if(proceding.getUserUpdated().isEmpty())
-            return new ResponseEntity<String>("userUpdated required", HttpStatus.BAD_REQUEST);
-        if(proceding.getNumberProceding().isEmpty())
-            return new ResponseEntity<String>("numero de expediente es requerido", HttpStatus.BAD_REQUEST);
-
         Proceding procedingObj = procedingService.getProceding(id).get();
+        try {
+            if(proceding.getUserUpdated() == null) return new ResponseEntity<String>("userUpdated required", HttpStatus.BAD_REQUEST);
+            procedingObj.setUserUpdated(proceding.getUserUpdated());
+            procedingObj.setDateUpdated(LocalDateTime.now());
 
-        proceding.setId(id);
-        proceding.setUserCreated(procedingObj.getUserCreated());
-        proceding.setDateCreation(procedingObj.getDateCreation());
-        proceding.setDateUpdated(LocalDateTime.now());
-        return new ResponseEntity<Proceding>(procedingService.save(proceding), HttpStatus.OK);
+            if(proceding.getRuc() != null) procedingObj.setRuc(proceding.getRuc());
+            if(proceding.getSocialReason() != null) procedingObj.setSocialReason(proceding.getSocialReason());
+            if(proceding.getDirection() != null) procedingObj.setDirection(proceding.getDirection());
+            if(proceding.getMemorandum() != null) procedingObj.setMemorandum(proceding.getMemorandum());
+            if(proceding.getAdministrate() != null) procedingObj.setAdministrate(proceding.getAdministrate());
+            if(proceding.getDocElevation() != null) procedingObj.setDocElevation(proceding.getDocElevation());
+            if(proceding.getRoadMap() != null) procedingObj.setRoadMap(proceding.getRoadMap());
+            if(proceding.getDateReception() != null) procedingObj.setDateReception(proceding.getDateReception());
+            if(proceding.getDateAttention() != null) procedingObj.setDateAttention(proceding.getDateAttention());
+            if(proceding.getConditionId() != null) procedingObj.setConditionId(proceding.getConditionId());
+            if(proceding.getOfficeFromId() != null) procedingObj.setOfficeFromId(proceding.getOfficeFromId());
+            if(proceding.getEconomicSectorId() != null) procedingObj.setEconomicSectorId(proceding.getEconomicSectorId());
+
+            return new ResponseEntity<Proceding>(procedingService.save(procedingObj), HttpStatus.OK);
+        } catch (NullPointerException e) {
+            System.out.println(e);
+            return new ResponseEntity<String>("error", HttpStatus.BAD_REQUEST);
+
+        }
+
+
     }
 
 
