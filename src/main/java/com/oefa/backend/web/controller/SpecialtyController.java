@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -72,6 +73,7 @@ public class SpecialtyController {
             if(specialtyBD.get().getId() == id) {
                 Specialty specialtyObj = specialtyService.getSpecialty(id).get();
                 specialtyObj.setName(specialty.getName());
+
                 specialtyObj.setUserUpdated(specialty.getUserUpdated());
                 specialtyObj.setDateUpdated(LocalDateTime.now());
                 return new ResponseEntity<Specialty>(specialtyService.save(specialtyObj), HttpStatus.OK);
@@ -82,6 +84,7 @@ public class SpecialtyController {
         specialtyObj.setName(specialty.getName());
         specialtyObj.setUserUpdated(specialty.getUserUpdated());
         specialtyObj.setDateUpdated(LocalDateTime.now());
+        specialtyObj.setVocals(new ArrayList<>());
         return new ResponseEntity<Specialty>(specialtyService.save(specialtyObj), HttpStatus.OK);
     }
 
