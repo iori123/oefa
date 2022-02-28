@@ -57,6 +57,10 @@ public class Expediente {
     @Column(name = "FECHA_ACTUALIZA_AUDITORIA")
     private LocalDateTime fechaActualizacion;
 
+    @Column(name = "ACTIVO")
+    private Integer activo;
+
+
     @Column(name = "CODIGO_ESTADO")
     private Integer codigoEstado;
     @Column(name = "CODIGO_OFICINA")
@@ -255,6 +259,14 @@ public class Expediente {
 
     public void setEstado(Estado estado) {
         this.estado = estado;
+    }
+
+    public Integer getActivo() {
+        return activo;
+    }
+
+    public void setActivo(Integer activo) {
+        this.activo = activo;
     }
 
     public OficinaProveniente getOficinaProveniente() {

@@ -24,6 +24,7 @@ public interface ProcedingMapper {
             @Mapping(source = "memorandum", target = "memorandum"),
 
             @Mapping(source = "descripcion", target = "description"),
+            @Mapping(source = "activo", target = "active"),
             @Mapping(source = "fechaAtencion", target = "dateAttention"),
             @Mapping(source = "fechaRecepcion", target = "dateReception"),
             @Mapping(source = "codigoEstado", target = "conditionId"),

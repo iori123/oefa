@@ -110,6 +110,7 @@ public class ProcedingController {
             if(proceding.getAdministrate() != null) procedingObj.setAdministrate(proceding.getAdministrate());
             if(proceding.getDocElevation() != null) procedingObj.setDocElevation(proceding.getDocElevation());
             if(proceding.getRoadMap() != null) procedingObj.setRoadMap(proceding.getRoadMap());
+            if(proceding.getActive() != null) procedingObj.setActive(proceding.getActive());
             if(proceding.getDateReception() != null) procedingObj.setDateReception(proceding.getDateReception());
             if(proceding.getDateAttention() != null) procedingObj.setDateAttention(proceding.getDateAttention());
             if(proceding.getConditionId() != null) procedingObj.setConditionId(proceding.getConditionId());

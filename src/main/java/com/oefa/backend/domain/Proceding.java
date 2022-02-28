@@ -14,6 +14,7 @@ public class Proceding {
     private String administrate;
     private String docElevation;
     private String roadMap;
+    private Integer active;
     private LocalDateTime dateReception;
     private LocalDateTime dateAttention;
     private String userCreated;
@@ -221,5 +222,13 @@ public class Proceding {
 
     public void setEconomicSector(EconomicSector economicSector) {
         this.economicSector = economicSector;
+    }
+
+    public Integer getActive() {
+        return active;
+    }
+
+    public void setActive(Integer active) {
+        this.active = active;
     }
 }
