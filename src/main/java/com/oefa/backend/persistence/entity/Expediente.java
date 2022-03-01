@@ -60,7 +60,8 @@ public class Expediente {
 
     @Column(name = "ACTIVO")
     private Integer activo;
-
+    @Column(name = "COMPLEJIDAD")
+    private Integer complejidad;
 
     @Column(name = "CODIGO_ESTADO")
     private Integer codigoEstado;
@@ -258,6 +259,14 @@ public class Expediente {
 
     public void setActivo(Integer activo) {
         this.activo = activo;
+    }
+
+    public Integer getComplejidad() {
+        return complejidad;
+    }
+
+    public void setComplejidad(Integer complejidad) {
+        this.complejidad = complejidad;
     }
 
     public OficinaProveniente getOficinaProveniente() {

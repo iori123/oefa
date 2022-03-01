@@ -65,23 +65,24 @@ public class ProcedingController {
         if(procedingService.getProcedingByNumberProceding(proceding.getNumberProceding()).isPresent()) {
             return new ResponseEntity<String>("Ya se registro este numero de expediente", HttpStatus.BAD_REQUEST);
         }
-        EconomicSector economicSector = economicSectorService.getEconomicSector(proceding.getEconomicSectorId()).get();
-        String nameSpecialty = economicSector.getName();
-        if(!specialtyService.getSpecialtyByName(nameSpecialty).isPresent()) {
-            return new ResponseEntity<String>("no hay existe la especilidad para los vocales", HttpStatus.CONFLICT);
-        }
-        Specialty specialty = specialtyService.getSpecialtyByName(nameSpecialty).get();
-        if( specialty.getVocals().size() == 0) {
-            return new ResponseEntity<String>("no hay vocales disponibles en esta especialidad", HttpStatus.CONFLICT);
-        }
+
 
         List<ProcedingVocal> procedingVocals = new ArrayList<>();
-        specialty.getVocals().forEach( vocal -> {
+       // specialty.getVocals().forEach( vocal -> {
             //List<Proceding> procedingsForVocal = procedingService.getAllByVocalId(vocal.getVocalId());
             //ProcedingVocal objProcedingsForVocal = new ProcedingVocal(vocal.getVocalId(), procedingsForVocal.size());
            // procedingVocals.add(objProcedingsForVocal);
-        });
+        //});
         if( proceding.getVocals() != null) {
+            EconomicSector economicSector = economicSectorService.getEconomicSector(proceding.getEconomicSectorId()).get();
+            String nameSpecialty = economicSector.getName();
+            if(!specialtyService.getSpecialtyByName(nameSpecialty).isPresent()) {
+                return new ResponseEntity<String>("no hay existe la especilidad para los vocales", HttpStatus.CONFLICT);
+            }
+            Specialty specialty = specialtyService.getSpecialtyByName(nameSpecialty).get();
+            if( specialty.getVocals().size() == 0) {
+                return new ResponseEntity<String>("no hay vocales disponibles en esta especialidad", HttpStatus.CONFLICT);
+            }
             if( proceding.getVocals().size() != 0) {
                 proceding.getVocals().forEach( vocal -> {
                     vocal.setDateCreated(LocalDateTime.now());
@@ -112,6 +113,7 @@ public class ProcedingController {
             procedingObj.setDateUpdated(LocalDateTime.now());
 
             if(proceding.getRuc() != null) procedingObj.setRuc(proceding.getRuc());
+            if(proceding.getComplexity() != null) procedingObj.setComplexity(proceding.getComplexity());
             if(proceding.getSocialReason() != null) procedingObj.setSocialReason(proceding.getSocialReason());
             if(proceding.getDirection() != null) procedingObj.setDirection(proceding.getDirection());
             if(proceding.getMemorandum() != null) procedingObj.setMemorandum(proceding.getMemorandum());

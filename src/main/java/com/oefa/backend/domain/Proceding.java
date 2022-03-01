@@ -22,6 +22,7 @@ public class Proceding {
     private String userUpdated;
     private LocalDateTime dateCreation;
     private LocalDateTime dateUpdated;
+    private Integer complexity;
 
     private Integer conditionId;
     private Integer officeFromId;
@@ -32,6 +33,13 @@ public class Proceding {
     private EconomicSector economicSector;
     private List<VocalProceding> vocals;
 
+    public Integer getComplexity() {
+        return complexity;
+    }
+
+    public void setComplexity(Integer complexity) {
+        this.complexity = complexity;
+    }
 
     public String getAdministrate() {
         return administrate;

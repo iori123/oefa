@@ -22,6 +22,7 @@ public interface ProcedingMapper {
             @Mapping(source = "hojaTramite", target = "roadMap"),
             @Mapping(source = "documentoElevacion", target = "docElevation"),
             @Mapping(source = "memorandum", target = "memorandum"),
+            @Mapping(source = "complejidad", target = "complexity"),
 
             @Mapping(source = "descripcion", target = "description"),
             @Mapping(source = "activo", target = "active"),
