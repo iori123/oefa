@@ -18,9 +18,6 @@ public class ProcedingService {
     public Optional<Proceding> getProcedingByNumberProceding (String numberProceding) {
         return procedingRepository.getProcedingByNumberProceding(numberProceding);
     }
-    public List<Proceding> getAllByVocalId (Integer id) {
-        return procedingRepository.getAllByVocalId(id);
-    }
     public Optional<Proceding> getProceding(Integer id) {
         return procedingRepository.getProceding(id);
     }

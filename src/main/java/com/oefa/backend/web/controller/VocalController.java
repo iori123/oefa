@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -88,6 +89,7 @@ public class VocalController {
                 specialty.setUserCreated(vocal.getUserCreated());
             });
 
+            vocal.setProcedings(new ArrayList<>());
         }
         return new ResponseEntity<Vocal>(vocalService.save(vocal), HttpStatus.OK);
         //vocalObj.setSpecialties(vocal.getSpecialties());

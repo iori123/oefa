@@ -10,7 +10,7 @@ import org.mapstruct.Mappings;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring" , uses = {OfficeFromMapper.class, EconomicSectorMapper.class ,StateMapper.class , VocalMapper.class})
+@Mapper(componentModel = "spring" , uses = {OfficeFromMapper.class, EconomicSectorMapper.class ,StateMapper.class , VocalProcedingMapper.class})
 public interface ProcedingMapper {
     @Mappings({
             @Mapping(source = "codigoExpediente", target = "id"),
@@ -30,13 +30,13 @@ public interface ProcedingMapper {
             @Mapping(source = "codigoEstado", target = "conditionId"),
             @Mapping(source = "codigoOficina", target = "officeFromId"),
             @Mapping(source = "codigoSector", target = "economicSectorId"),
-            @Mapping(source = "codigoVocal", target = "vocalId"),
 
 
             @Mapping(source = "estado", target = "condition"),
             @Mapping(source = "oficinaProveniente", target = "officeFrom"),
             @Mapping(source = "sectorEconomico", target = "economicSector"),
-            @Mapping(source = "vocal", target = "vocal"),
+            @Mapping(source = "vocales", target = "vocals"),
+
 
             @Mapping(source = "usuarioCrea", target = "userCreated"),
             @Mapping(source = "usuarioActualiza", target = "userUpdated"),

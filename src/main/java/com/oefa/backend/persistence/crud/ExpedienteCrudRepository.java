@@ -8,6 +8,4 @@ import java.util.Optional;
 
 public interface ExpedienteCrudRepository extends CrudRepository<Expediente,Integer> {
     Optional<Expediente> findByNumeroExpedienteContainingIgnoreCase(String numeroExpediente);
-    List<Expediente> findByCodigoVocal(Integer codigoVocal);
-
 }

@@ -2,6 +2,7 @@ package com.oefa.backend.persistence.entity;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table( name = "T_MVP_EXPEDIENTE")
@@ -67,16 +68,6 @@ public class Expediente {
     private Integer codigoOficina;
     @Column(name = "CODIGO_SECTOR")
     private Integer codigoSector;
-    @Column(name = "CODIGO_VOCAL")
-    private Integer codigoVocal;
-
-    public Integer getCodigoVocal() {
-        return codigoVocal;
-    }
-
-    public void setCodigoVocal(Integer codigoVocal) {
-        this.codigoVocal = codigoVocal;
-    }
 
     @ManyToOne
     @JoinColumn(name = "CODIGO_ESTADO", insertable = false, updatable = false)
@@ -90,15 +81,15 @@ public class Expediente {
     @JoinColumn(name = "CODIGO_SECTOR", insertable = false, updatable = false)
     private SectorEconomico sectorEconomico;
 
-    @ManyToOne
-    @JoinColumn(name = "CODIGO_VOCAL", insertable = false, updatable = false)
-    private VocalPonente vocal;
+    @OneToMany(mappedBy = "expediente" ,cascade = {CascadeType.ALL})
+    private List<ExpedienteVocal> vocales;
 
-    public VocalPonente getVocal() {
-        return vocal;
+    public List<ExpedienteVocal> getVocales() {
+        return vocales;
     }
-    public void setVocal(VocalPonente vocal) {
-        this.vocal = vocal;
+
+    public void setVocales(List<ExpedienteVocal> vocales) {
+        this.vocales = vocales;
     }
 
     public String getHojaTramite() {

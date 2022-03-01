@@ -2,10 +2,8 @@ package com.oefa.backend.web.controller;
 
 import com.oefa.backend.domain.*;
 import com.oefa.backend.domain.dto.proceding.DocumentDto;
-import com.oefa.backend.domain.service.DocumentService;
-import com.oefa.backend.domain.service.EconomicSectorService;
-import com.oefa.backend.domain.service.ProcedingService;
-import com.oefa.backend.domain.service.SpecialtyService;
+import com.oefa.backend.domain.dto.proceding.ProcedingAssign;
+import com.oefa.backend.domain.service.*;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
@@ -32,6 +30,8 @@ public class ProcedingController {
     private EconomicSectorService economicSectorService;
     @Autowired
     private SpecialtyService specialtyService;
+    @Autowired
+    private VocalService vocalService;
 
     @GetMapping
     @ApiOperation("Retorna la lista de expedientes")
@@ -62,7 +62,6 @@ public class ProcedingController {
             return new ResponseEntity<String>("userCreated required", HttpStatus.BAD_REQUEST);
         if(proceding.getNumberProceding().isEmpty())
             return new ResponseEntity<String>("number proceding is required", HttpStatus.BAD_REQUEST);
-
         if(procedingService.getProcedingByNumberProceding(proceding.getNumberProceding()).isPresent()) {
             return new ResponseEntity<String>("Ya se registro este numero de expediente", HttpStatus.BAD_REQUEST);
         }
@@ -75,14 +74,23 @@ public class ProcedingController {
         if( specialty.getVocals().size() == 0) {
             return new ResponseEntity<String>("no hay vocales disponibles en esta especialidad", HttpStatus.CONFLICT);
         }
+
         List<ProcedingVocal> procedingVocals = new ArrayList<>();
         specialty.getVocals().forEach( vocal -> {
-            List<Proceding> procedingsForVocal = procedingService.getAllByVocalId(vocal.getVocalId());
-            ProcedingVocal objProcedingsForVocal = new ProcedingVocal(vocal.getVocalId(), procedingsForVocal.size());
-            procedingVocals.add(objProcedingsForVocal);
+            //List<Proceding> procedingsForVocal = procedingService.getAllByVocalId(vocal.getVocalId());
+            //ProcedingVocal objProcedingsForVocal = new ProcedingVocal(vocal.getVocalId(), procedingsForVocal.size());
+           // procedingVocals.add(objProcedingsForVocal);
         });
-        Collections.sort(procedingVocals);
-        proceding.setVocalId(procedingVocals.get(0).getVocalId());
+        if( proceding.getVocals() != null) {
+            if( proceding.getVocals().size() != 0) {
+                proceding.getVocals().forEach( vocal -> {
+                    vocal.setDateCreated(LocalDateTime.now());
+                    vocal.setUserCreated(proceding.getUserCreated());
+                });
+            }
+        }
+        //Collections.sort(procedingVocals);
+        //proceding.setVocalId(procedingVocals.get(0).getVocalId());
         proceding.setDateCreation(LocalDateTime.now());
         return new ResponseEntity<Proceding>(procedingService.save(proceding), HttpStatus.CREATED);
     }
@@ -117,17 +125,86 @@ public class ProcedingController {
             if(proceding.getOfficeFromId() != null) procedingObj.setOfficeFromId(proceding.getOfficeFromId());
             if(proceding.getEconomicSectorId() != null) procedingObj.setEconomicSectorId(proceding.getEconomicSectorId());
 
+            if(procedingService.delete(id)) {
+                if( proceding.getVocals() != null) {
+                    if(proceding.getVocals().size() != 0 ) {
+                        if( procedingObj.getVocals().size() == 0 ) {
+                            procedingObj.getVocals().forEach( vocal -> {
+                                vocal.setVocalId(proceding.getVocals().get(0).getVocalId());
+                                vocal.setDateCreated(LocalDateTime.now());
+                                vocal.setUserCreated(proceding.getUserCreated());
+                            });
+                        }else {
+                            procedingObj.getVocals().forEach( vocal -> {
+                                vocal.setVocalId(proceding.getVocals().get(0).getVocalId());
+                                vocal.setUserUpdated(proceding.getUserUpdated());
+                                vocal.setDateUpdated(LocalDateTime.now());
+                            });
+
+                        }
+                    }
+                }
+            }
             return new ResponseEntity<Proceding>(procedingService.save(procedingObj), HttpStatus.OK);
         } catch (NullPointerException e) {
             System.out.println(e);
             return new ResponseEntity<String>("error", HttpStatus.BAD_REQUEST);
-
         }
-
-
     }
 
+    @PostMapping("/assign/{id}")
+    @ApiOperation("ASIGNAR VOCAL A NUEVO EXPEDIENTE")
+    @ApiResponses({
+            @ApiResponse(code = 200 , message = "OK"),
+            @ApiResponse(code = 400 , message = "BAD REQUEST")
+    })
+    public ResponseEntity assign(@RequestBody ProcedingAssign proceding,
+                                 @ApiParam(value = "id of the proceding" , required = true, example = "12") @PathVariable("id") Integer id) {
+        if( !procedingService.getProceding(id).isPresent())
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        Proceding procedingObj = procedingService.getProceding(id).get();
 
+        EconomicSector economicSector = economicSectorService.getEconomicSector(procedingObj.getEconomicSectorId()).get();
+        String nameSpecialty = economicSector.getName();
+        if(!specialtyService.getSpecialtyByName(nameSpecialty).isPresent()) {
+            return new ResponseEntity<String>("no hay existe la especilidad para los vocales", HttpStatus.CONFLICT);
+        }
+        Specialty specialty = specialtyService.getSpecialtyByName(nameSpecialty).get();
+
+        if( specialty.getVocals().size() == 0) {
+            return new ResponseEntity<String>("no hay vocales disponibles en esta especialidad", HttpStatus.CONFLICT);
+        }
+
+        try {
+            if(proceding.getUserAssign() == null) return new ResponseEntity<String>("Es necesario el campo userAssign ", HttpStatus.BAD_REQUEST);
+            procedingObj.setUserUpdated(proceding.getUserAssign());
+            procedingObj.setDateUpdated(LocalDateTime.now());
+
+            if( procedingObj.getVocals().size() == 0) {
+                List<ProcedingVocalSort> procedingVocals = new ArrayList<>();
+                specialty.getVocals().forEach( vocal -> {
+                    List<ProcedingVocal> procedingsForVocal = vocalService.getVocal(vocal.getVocalId()).get().getProcedings();
+                    ProcedingVocalSort objProcedingsForVocal = new ProcedingVocalSort(vocal.getVocalId(), procedingsForVocal.size());
+                    procedingVocals.add(objProcedingsForVocal);
+                });
+
+                Collections.sort(procedingVocals);
+
+                VocalProceding vocalProceding = new VocalProceding();
+                vocalProceding.setVocalId(procedingVocals.get(0).getVocalId());
+                vocalProceding.setDateCreated(LocalDateTime.now());
+                vocalProceding.setUserCreated(proceding.getUserAssign());
+                List<VocalProceding> vocals = new ArrayList<VocalProceding>();
+                vocals.add(vocalProceding);
+                procedingObj.setVocals(vocals);
+            }
+
+            return new ResponseEntity<Proceding>(procedingService.save(procedingObj), HttpStatus.OK);
+        } catch (NullPointerException e) {
+            System.out.println(e);
+            return new ResponseEntity<String>("error", HttpStatus.BAD_REQUEST);
+        }
+    }
     @GetMapping ("/document")
     @ApiOperation("retorna el documento")
     public ResponseEntity documentProceding(@RequestParam(required = true) String ticket_auth ,@RequestParam(required = true) String ticket_session) {
@@ -135,9 +212,6 @@ public class ProcedingController {
                 .map(document1 -> new ResponseEntity<>(document1, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
-
-
-
 
     @DeleteMapping("/{id}")
     public ResponseEntity delete(@PathVariable("id") Integer id) {

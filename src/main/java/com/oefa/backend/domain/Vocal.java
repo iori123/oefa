@@ -16,6 +16,7 @@ public class Vocal {
     private LocalDateTime dateUpdated;
 
     private List<SpecialtyVocal> specialties;
+    private List<ProcedingVocal> procedings;
 
     public Integer getId() {
         return id;
@@ -103,5 +104,13 @@ public class Vocal {
 
     public void setSpecialties(List<SpecialtyVocal> specialties) {
         this.specialties = specialties;
+    }
+
+    public List<ProcedingVocal> getProcedings() {
+        return procedings;
+    }
+
+    public void setProcedings(List<ProcedingVocal> procedings) {
+        this.procedings = procedings;
     }
 }

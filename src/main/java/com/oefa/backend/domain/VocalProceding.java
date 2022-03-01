@@ -2,19 +2,19 @@ package com.oefa.backend.domain;
 
 import java.time.LocalDateTime;
 
-public class ProcedingVocal  {
-    private Integer procedingId;
+public class VocalProceding {
+    private Integer vocalId;
     private String userCreated;
     private LocalDateTime dateCreated;
     private String userUpdated;
     private LocalDateTime dateUpdated;
 
-    public Integer getProcedingId() {
-        return procedingId;
+    public Integer getVocalId() {
+        return vocalId;
     }
 
-    public void setProcedingId(Integer procedingId) {
-        this.procedingId = procedingId;
+    public void setVocalId(Integer vocalId) {
+        this.vocalId = vocalId;
     }
 
     public String getUserCreated() {

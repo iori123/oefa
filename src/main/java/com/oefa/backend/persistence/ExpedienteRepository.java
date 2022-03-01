@@ -29,12 +29,6 @@ public class ExpedienteRepository  implements ProcedingRepository {
         return mapper.toProcedings(expedientes);
     }
     @Override
-    public List<Proceding> getAllByVocalId(Integer id) {
-        List<Expediente> expedientes = (List<Expediente>)expedienteCrudRepository.findByCodigoVocal(id);
-        return mapper.toProcedings(expedientes);
-
-    }
-    @Override
     public Optional<Proceding> getProcedingByNumberProceding(String numberProceding) {
         return expedienteCrudRepository.findByNumeroExpedienteContainingIgnoreCase(numberProceding).map(oficina -> mapper.toProceding(oficina));
     }
@@ -46,6 +40,9 @@ public class ExpedienteRepository  implements ProcedingRepository {
     @Override
     public Proceding save(Proceding proceding) {
         Expediente expediente = mapper.toExpediente(proceding);
+        if( expediente.getVocales() != null) {
+        expediente.getVocales().forEach(vocalPonente -> vocalPonente.setExpediente(expediente));
+        }
         return mapper.toProceding(expedienteCrudRepository.save(expediente));
     }
 

@@ -1,6 +1,4 @@
 package com.oefa.backend.persistence.mapper;
-
-import com.oefa.backend.domain.SpecialtyVocal;
 import com.oefa.backend.domain.VocalSpecialty;
 import com.oefa.backend.persistence.entity.VocalEspecialidad;
 import org.mapstruct.InheritInverseConfiguration;

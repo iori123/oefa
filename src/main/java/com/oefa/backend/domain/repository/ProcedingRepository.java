@@ -10,7 +10,6 @@ import java.util.Optional;
 
 public interface ProcedingRepository {
     List<Proceding> getAll();
-    List<Proceding> getAllByVocalId(Integer id);
     Optional<Proceding> getProcedingByNumberProceding(String numberProceding);
 
     Optional<Proceding> getProceding(Integer id);

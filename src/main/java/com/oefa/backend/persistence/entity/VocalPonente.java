@@ -46,6 +46,17 @@ public class VocalPonente {
     @OneToMany(mappedBy = "vocalPonente" ,cascade = {CascadeType.ALL})
     private List<VocalEspecialidad> especialidades;
 
+    @OneToMany(mappedBy = "vocal" ,cascade = {CascadeType.ALL})
+    private List<ExpedienteVocal> expedientes;
+
+    public List<ExpedienteVocal> getExpedientes() {
+        return expedientes;
+    }
+
+    public void setExpedientes(List<ExpedienteVocal> expedientes) {
+        this.expedientes = expedientes;
+    }
+
     public Integer getCodigoVocal() {
         return codigoVocal;
     }

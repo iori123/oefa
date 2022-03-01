@@ -2,6 +2,7 @@ package com.oefa.backend.domain;
 
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class Proceding {
     private Integer id;
@@ -25,28 +26,12 @@ public class Proceding {
     private Integer conditionId;
     private Integer officeFromId;
     private Integer economicSectorId;
-    private Integer vocalId;
 
     private Condition condition;
     private OfficeFrom officeFrom;
     private EconomicSector economicSector;
-    private Vocal vocal;
+    private List<VocalProceding> vocals;
 
-    public Integer getVocalId() {
-        return vocalId;
-    }
-
-    public void setVocalId(Integer vocalId) {
-        this.vocalId = vocalId;
-    }
-
-    public Vocal getVocal() {
-        return vocal;
-    }
-
-    public void setVocal(Vocal vocal) {
-        this.vocal = vocal;
-    }
 
     public String getAdministrate() {
         return administrate;
@@ -230,5 +215,13 @@ public class Proceding {
 
     public void setActive(Integer active) {
         this.active = active;
+    }
+
+    public List<VocalProceding> getVocals() {
+        return vocals;
+    }
+
+    public void setVocals(List<VocalProceding> vocals) {
+        this.vocals = vocals;
     }
 }

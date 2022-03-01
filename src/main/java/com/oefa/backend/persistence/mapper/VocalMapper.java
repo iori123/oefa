@@ -8,7 +8,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 
 import java.util.List;
-@Mapper(componentModel = "spring", uses = {SpecialtyVocalMapper.class})
+@Mapper(componentModel = "spring", uses = {SpecialtyVocalMapper.class , ProcedingVocalMapper.class})
 public interface VocalMapper {
     @Mappings({
             @Mapping(source = "codigoVocal", target = "id"),
@@ -21,7 +21,9 @@ public interface VocalMapper {
             @Mapping(source = "usuarioActualiza", target = "userUpdated"),
             @Mapping(source = "fechaCreacion", target = "dateCreated"),
             @Mapping(source = "fechaActualizacion", target = "dateUpdated"),
-            @Mapping(source = "especialidades", target = "specialties")
+            @Mapping(source = "especialidades", target = "specialties"),
+            @Mapping(source = "expedientes", target = "procedings")
+
     })
     Vocal toVocal(VocalPonente vocalPonente);
     List<Vocal> toVocals(List<VocalPonente> vocalesPonentes);
