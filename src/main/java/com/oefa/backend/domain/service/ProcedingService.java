@@ -22,6 +22,7 @@ public class ProcedingService {
         return procedingRepository.getProceding(id);
     }
     public Proceding save( Proceding proceding) {
+
         return procedingRepository.save(proceding);
     }
     public boolean delete( Integer id) {

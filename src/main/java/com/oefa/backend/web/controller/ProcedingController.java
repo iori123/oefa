@@ -162,14 +162,13 @@ public class ProcedingController {
     })
     public ResponseEntity assign(@RequestBody ProcedingAssign proceding,
                                  @ApiParam(value = "id of the proceding" , required = true, example = "12") @PathVariable("id") Integer id) {
-        if( !procedingService.getProceding(id).isPresent())
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        if( !procedingService.getProceding(id).isPresent()) return new ResponseEntity<String>("no existe el expedinte",HttpStatus.NOT_FOUND);
         Proceding procedingObj = procedingService.getProceding(id).get();
 
         EconomicSector economicSector = economicSectorService.getEconomicSector(procedingObj.getEconomicSectorId()).get();
         String nameSpecialty = economicSector.getName();
         if(!specialtyService.getSpecialtyByName(nameSpecialty).isPresent()) {
-            return new ResponseEntity<String>("no hay existe la especilidad para los vocales", HttpStatus.CONFLICT);
+            return new ResponseEntity<String>("no hay existe la especialidad para los vocales", HttpStatus.CONFLICT);
         }
         Specialty specialty = specialtyService.getSpecialtyByName(nameSpecialty).get();
 
@@ -199,9 +198,14 @@ public class ProcedingController {
                 List<VocalProceding> vocals = new ArrayList<VocalProceding>();
                 vocals.add(vocalProceding);
                 procedingObj.setVocals(vocals);
+
+                return new ResponseEntity<Proceding>(procedingService.save(procedingObj), HttpStatus.OK);
+
+            }else {
+                return new ResponseEntity<String>( "Ya existe asignado un vocal para este expediente", HttpStatus.CONFLICT);
+
             }
 
-            return new ResponseEntity<Proceding>(procedingService.save(procedingObj), HttpStatus.OK);
         } catch (NullPointerException e) {
             System.out.println(e);
             return new ResponseEntity<String>("error", HttpStatus.BAD_REQUEST);
