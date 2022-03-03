@@ -3,6 +3,7 @@ package com.oefa.backend.web.controller;
 import com.oefa.backend.domain.*;
 import com.oefa.backend.domain.dto.proceding.DocumentDto;
 import com.oefa.backend.domain.dto.proceding.ProcedingAssign;
+import com.oefa.backend.domain.dto.proceding.ProcedingsAssignResponseDTO;
 import com.oefa.backend.domain.service.*;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -14,10 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 @RestController
 @RequestMapping("/procedings")
@@ -66,13 +64,6 @@ public class ProcedingController {
             return new ResponseEntity<String>("Ya se registro este numero de expediente", HttpStatus.BAD_REQUEST);
         }
 
-
-        List<ProcedingVocal> procedingVocals = new ArrayList<>();
-       // specialty.getVocals().forEach( vocal -> {
-            //List<Proceding> procedingsForVocal = procedingService.getAllByVocalId(vocal.getVocalId());
-            //ProcedingVocal objProcedingsForVocal = new ProcedingVocal(vocal.getVocalId(), procedingsForVocal.size());
-           // procedingVocals.add(objProcedingsForVocal);
-        //});
         if( proceding.getVocals() != null) {
             EconomicSector economicSector = economicSectorService.getEconomicSector(proceding.getEconomicSectorId()).get();
             String nameSpecialty = economicSector.getName();
@@ -88,10 +79,9 @@ public class ProcedingController {
                     vocal.setDateCreated(LocalDateTime.now());
                     vocal.setUserCreated(proceding.getUserCreated());
                 });
+                proceding.setConditionId(2);
             }
         }
-        //Collections.sort(procedingVocals);
-        //proceding.setVocalId(procedingVocals.get(0).getVocalId());
         proceding.setDateCreation(LocalDateTime.now());
         return new ResponseEntity<Proceding>(procedingService.save(proceding), HttpStatus.CREATED);
     }
@@ -142,8 +132,8 @@ public class ProcedingController {
                                 vocal.setUserUpdated(proceding.getUserUpdated());
                                 vocal.setDateUpdated(LocalDateTime.now());
                             });
-
                         }
+                        procedingObj.setConditionId(2);
                     }
                 }
             }
@@ -162,11 +152,13 @@ public class ProcedingController {
     })
     public ResponseEntity assign(@RequestBody ProcedingAssign proceding,
                                  @ApiParam(value = "id of the proceding" , required = true, example = "12") @PathVariable("id") Integer id) {
+
         if( !procedingService.getProceding(id).isPresent()) return new ResponseEntity<String>("no existe el expedinte",HttpStatus.NOT_FOUND);
         Proceding procedingObj = procedingService.getProceding(id).get();
 
         EconomicSector economicSector = economicSectorService.getEconomicSector(procedingObj.getEconomicSectorId()).get();
         String nameSpecialty = economicSector.getName();
+
         if(!specialtyService.getSpecialtyByName(nameSpecialty).isPresent()) {
             return new ResponseEntity<String>("no hay existe la especialidad para los vocales", HttpStatus.CONFLICT);
         }
@@ -184,8 +176,18 @@ public class ProcedingController {
             if( procedingObj.getVocals().size() == 0) {
                 List<ProcedingVocalSort> procedingVocals = new ArrayList<>();
                 specialty.getVocals().forEach( vocal -> {
+
                     List<ProcedingVocal> procedingsForVocal = vocalService.getVocal(vocal.getVocalId()).get().getProcedings();
-                    ProcedingVocalSort objProcedingsForVocal = new ProcedingVocalSort(vocal.getVocalId(), procedingsForVocal.size());
+                    List<ProcedingVocal> procedingsForVocalNoResolve = new ArrayList<>();
+                    if(procedingsForVocal.size() > 0) {
+                        procedingsForVocal.forEach( p -> {
+                            Proceding procedingData = procedingService.getProceding(p.getProcedingId()).get();
+                            if(procedingData.getConditionId() == 2 ){
+                                procedingsForVocalNoResolve.add(p);
+                            }
+                        });
+                    }
+                    ProcedingVocalSort objProcedingsForVocal = new ProcedingVocalSort(vocal.getVocalId(), procedingsForVocalNoResolve.size());
                     procedingVocals.add(objProcedingsForVocal);
                 });
 
@@ -197,6 +199,7 @@ public class ProcedingController {
                 vocalProceding.setUserCreated(proceding.getUserAssign());
                 List<VocalProceding> vocals = new ArrayList<VocalProceding>();
                 vocals.add(vocalProceding);
+                procedingObj.setConditionId(2);
                 procedingObj.setVocals(vocals);
 
                 return new ResponseEntity<Proceding>(procedingService.save(procedingObj), HttpStatus.OK);
@@ -211,6 +214,112 @@ public class ProcedingController {
             return new ResponseEntity<String>("error", HttpStatus.BAD_REQUEST);
         }
     }
+
+    @PostMapping("/assign")
+    @ApiOperation("ASIGNAR VOCALS A LOS EXPEDIENTES")
+    @ApiResponses({
+            @ApiResponse(code = 200 , message = "OK"),
+            @ApiResponse(code = 400 , message = "BAD REQUEST")
+    })
+    public ResponseEntity assignAll(@RequestBody ProcedingAssign proceding ){
+        if(proceding.getUserAssign() == null)
+            return new ResponseEntity<String>("Es necesario el campo userAssign ", HttpStatus.BAD_REQUEST);
+
+        List<Proceding> dataBD = procedingService.getAll();
+        List<Proceding> notAccepted = new ArrayList<>();
+        List<Proceding> temAcceptedProceding = new ArrayList<>();
+        List<Proceding> acceptedProcedings = new ArrayList<>();
+        List<Proceding> data = new ArrayList<>();
+
+        dataBD.forEach( p-> {
+            if(p.getVocals().size() == 0 ){
+                System.out.println(p.getVocals().size());
+                data.add(p);
+            }
+        });
+
+        data.forEach( p -> {
+
+            EconomicSector economicSector = economicSectorService.getEconomicSector(p.getEconomicSectorId()).get();
+            String nameSpecialty = economicSector.getName();
+            if(specialtyService.getSpecialtyByName(nameSpecialty).isPresent()) {
+                Specialty specialty = specialtyService.getSpecialtyByName(nameSpecialty).get();
+                if( specialty.getVocals().size() > 0) {
+                    temAcceptedProceding.add(p);
+                    acceptedProcedings.add(p);
+                }else {
+                    notAccepted.add(p);
+                }
+            }else {
+                notAccepted.add(p);
+            }
+
+        });
+
+
+
+        acceptedProcedings.forEach( procedingObj -> {
+            try {
+                procedingObj.setUserUpdated(proceding.getUserAssign());
+                procedingObj.setDateUpdated(LocalDateTime.now());
+
+                List<ProcedingVocalSort> procedingVocals = new ArrayList<>();
+                String nameSpecialty = economicSectorService.getEconomicSector(procedingObj.getEconomicSectorId()).get().getName();
+                Specialty specialties = specialtyService.getSpecialtyByName(nameSpecialty).get();
+
+                specialties.getVocals().forEach( vocal -> {
+                    List<ProcedingVocal> procedingsForVocal = vocalService.getVocal(vocal.getVocalId()).get().getProcedings();
+                    procedingsForVocal.forEach( e -> { System.out.println(e.getProcedingId());});
+                    List<ProcedingVocal> procedingsForVocalNoResolve = new ArrayList<>();
+                    if(procedingsForVocal.size() > 0) {
+                        procedingsForVocal.forEach( p -> {
+                            Proceding procedingData = procedingService.getProceding(p.getProcedingId()).get();
+                            if(procedingData.getConditionId() == 2 ){
+                                procedingsForVocalNoResolve.add(p);
+                            }
+                        });
+                    }
+
+                    ProcedingVocalSort objProcedingsForVocal = new ProcedingVocalSort(vocal.getVocalId(), procedingsForVocalNoResolve.size());
+                    procedingVocals.add(objProcedingsForVocal);
+                });
+
+                Collections.sort(procedingVocals);
+
+                VocalProceding vocalProceding = new VocalProceding();
+                vocalProceding.setVocalId(procedingVocals.get(0).getVocalId());
+                vocalProceding.setDateCreated(LocalDateTime.now());
+                vocalProceding.setUserCreated(proceding.getUserAssign());
+                List<VocalProceding> vocals = new ArrayList<VocalProceding>();
+                vocals.add(vocalProceding);
+                procedingObj.setConditionId(2);
+                procedingObj.setVocals(vocals);
+                procedingService.save(procedingObj);
+            } catch (NullPointerException e) {
+                System.out.println(e);
+            }
+
+        });
+        if(notAccepted.size() == 0 && temAcceptedProceding.size() > 0){
+            ProcedingsAssignResponseDTO response = new ProcedingsAssignResponseDTO(notAccepted.size(),"Se asignaron todos los expedientes correctamente",notAccepted, temAcceptedProceding);
+            return new ResponseEntity<ProcedingsAssignResponseDTO>( response, HttpStatus.OK);        }
+        if(temAcceptedProceding.size() > 0 && notAccepted.size() > 0 ){
+            ProcedingsAssignResponseDTO response = new ProcedingsAssignResponseDTO(notAccepted.size(),"No se lograron insertar los siguientes expedientes por motivos de especialidad no encontrada o que la especialidad no ha sido  asignada a vocales",notAccepted, temAcceptedProceding);
+            return new ResponseEntity<ProcedingsAssignResponseDTO>( response, HttpStatus.CONFLICT);
+        }
+        if( temAcceptedProceding.size() ==  0 && notAccepted.size() > 0) {
+            ProcedingsAssignResponseDTO response = new ProcedingsAssignResponseDTO(notAccepted.size(),"no se pudieron asignar los expedientes , las especialidades no fueron registradas o estas no estaban designadas a un vocal.",notAccepted, temAcceptedProceding);
+            return new ResponseEntity<ProcedingsAssignResponseDTO>( response, HttpStatus.CONFLICT);
+
+        }
+        if( temAcceptedProceding.size() ==  0 && notAccepted.size() == 0) {
+            ProcedingsAssignResponseDTO response = new ProcedingsAssignResponseDTO(notAccepted.size(),"Todos los expedientes ya fueron asignados",notAccepted, temAcceptedProceding);
+            return new ResponseEntity<ProcedingsAssignResponseDTO>( response, HttpStatus.OK);
+        }
+        return new ResponseEntity<String>(".", HttpStatus.BAD_REQUEST);
+
+    }
+
     @GetMapping ("/document")
     @ApiOperation("retorna el documento")
     public ResponseEntity documentProceding(@RequestParam(required = true) String ticket_auth ,@RequestParam(required = true) String ticket_session) {
