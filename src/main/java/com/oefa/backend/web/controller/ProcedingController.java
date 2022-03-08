@@ -153,7 +153,7 @@ public class ProcedingController {
     public ResponseEntity assign(@RequestBody ProcedingAssign proceding,
                                  @ApiParam(value = "id of the proceding" , required = true, example = "12") @PathVariable("id") Integer id) {
 
-        if( !procedingService.getProceding(id).isPresent()) return new ResponseEntity<String>("no existe el expedinte",HttpStatus.NOT_FOUND);
+        if( !procedingService.getProceding(id).isPresent()) return new ResponseEntity<String>("no existe el expediente",HttpStatus.NOT_FOUND);
         Proceding procedingObj = procedingService.getProceding(id).get();
 
         EconomicSector economicSector = economicSectorService.getEconomicSector(procedingObj.getEconomicSectorId()).get();
@@ -256,7 +256,7 @@ public class ProcedingController {
 
         });
 
-
+        List<Vocal> vocalesDB = vocalService.getAll();
 
         acceptedProcedings.forEach( procedingObj -> {
             try {
@@ -269,7 +269,6 @@ public class ProcedingController {
 
                 specialties.getVocals().forEach( vocal -> {
                     List<ProcedingVocal> procedingsForVocal = vocalService.getVocal(vocal.getVocalId()).get().getProcedings();
-                    procedingsForVocal.forEach( e -> { System.out.println(e.getProcedingId());});
                     List<ProcedingVocal> procedingsForVocalNoResolve = new ArrayList<>();
                     if(procedingsForVocal.size() > 0) {
                         procedingsForVocal.forEach( p -> {

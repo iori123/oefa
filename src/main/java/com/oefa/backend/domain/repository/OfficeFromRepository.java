@@ -10,7 +10,6 @@ public interface OfficeFromRepository {
     List<OfficeFrom> getAll();
     Optional<OfficeFrom> getOfficeFrom(Integer id);
     Optional<OfficeFrom> getOfficeFromByName(String name);
-
     OfficeFrom save( OfficeFrom officeFrom);
     void delete( Integer id);
 }

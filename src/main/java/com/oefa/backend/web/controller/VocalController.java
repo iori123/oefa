@@ -1,7 +1,10 @@
 package com.oefa.backend.web.controller;
 
+import com.oefa.backend.domain.Proceding;
 import com.oefa.backend.domain.Vocal;
 import com.oefa.backend.domain.dto.search.SearchDTO;
+import com.oefa.backend.domain.dto.vocal.VocalReportDto;
+import com.oefa.backend.domain.service.ProcedingService;
 import com.oefa.backend.domain.service.SpecialtyService;
 import com.oefa.backend.domain.service.VocalService;
 import io.swagger.annotations.ApiOperation;
@@ -24,6 +27,8 @@ public class VocalController {
     private VocalService vocalService;
     @Autowired
     private SpecialtyService specialtyService;
+    @Autowired
+    private ProcedingService procedingService;
 
     @GetMapping
     @ApiOperation("Get all list of Vocals")
@@ -43,6 +48,43 @@ public class VocalController {
                 .map(vocal -> new ResponseEntity<>(vocal, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
+
+    @GetMapping("/report")
+    @ApiOperation("get vocals report")
+    @ApiResponses({
+            @ApiResponse(code = 200 , message = "OK"),
+    })
+    public ResponseEntity<List<VocalReportDto>> getVocalReports() {
+        List<VocalReportDto> reportVocals = new ArrayList<VocalReportDto>();
+        vocalService.getAll().forEach( vocal -> {
+            Vocal vocalData = vocalService.getVocal(vocal.getId()).get();
+            VocalReportDto report = new VocalReportDto();
+            report.setIdVocal(vocal.getId());
+            report.setVocal(vocal.getNames());
+            report.setAssignProcedigns(0);
+            report.setResolveProcedings(0);
+            report.setInactiveProcedings(0);
+            if(vocalData.getProcedings().size() != 0) {
+                vocalData.getProcedings().forEach( p -> {
+                    Proceding proceding = procedingService.getProceding(p.getProcedingId()).get();
+                    if(proceding.getConditionId() == 2 ) {
+                        report.setAssignProcedigns( report.getAssignProcedigns() + 1 ); ;
+                    }
+                    if(proceding.getConditionId() == 3 ) {
+                        report.setResolveProcedings( report.getResolveProcedings() + 1 ); ;
+                    }
+                    if(proceding.getActive() == 0 ) {
+                        report.setInactiveProcedings( report.getInactiveProcedings() + 1 ); ;
+
+                    }
+                });
+            }
+            reportVocals.add(report);
+        });
+        return new ResponseEntity<>(reportVocals,HttpStatus.OK);
+
+    }
+
     @GetMapping("/search")
     @ApiOperation("Search Vocal with an fullName")
     @ApiResponses({
