@@ -56,6 +56,7 @@ public class VocalController {
     })
     public ResponseEntity<List<VocalReportDto>> getVocalReports() {
         List<VocalReportDto> reportVocals = new ArrayList<VocalReportDto>();
+        
         vocalService.getAll().forEach( vocal -> {
             Vocal vocalData = vocalService.getVocal(vocal.getId()).get();
             VocalReportDto report = new VocalReportDto();
