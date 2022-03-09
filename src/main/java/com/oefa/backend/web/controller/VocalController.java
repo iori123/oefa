@@ -54,9 +54,9 @@ public class VocalController {
     @ApiResponses({
             @ApiResponse(code = 200 , message = "OK"),
     })
-    public ResponseEntity<List<VocalReportDto>> getVocalReports() {
+    public ResponseEntity<List<VocalReportDto>> getVocalReports(@RequestParam(required = false ) String initDate ,@RequestParam(required = false) String endDate) {
         List<VocalReportDto> reportVocals = new ArrayList<VocalReportDto>();
-        
+
         vocalService.getAll().forEach( vocal -> {
             Vocal vocalData = vocalService.getVocal(vocal.getId()).get();
             VocalReportDto report = new VocalReportDto();
@@ -65,22 +65,53 @@ public class VocalController {
             report.setAssignProcedigns(0);
             report.setResolveProcedings(0);
             report.setInactiveProcedings(0);
-            if(vocalData.getProcedings().size() != 0) {
-                vocalData.getProcedings().forEach( p -> {
-                    Proceding proceding = procedingService.getProceding(p.getProcedingId()).get();
-                    if(proceding.getConditionId() == 2 ) {
-                        report.setAssignProcedigns( report.getAssignProcedigns() + 1 ); ;
-                    }
-                    if(proceding.getConditionId() == 3 ) {
-                        report.setResolveProcedings( report.getResolveProcedings() + 1 ); ;
-                    }
-                    if(proceding.getActive() == 0 ) {
-                        report.setInactiveProcedings( report.getInactiveProcedings() + 1 ); ;
 
-                    }
-                });
+            if ( initDate == null || endDate == null ) {
+                if(vocalData.getProcedings().size() != 0) {
+                    vocalData.getProcedings().forEach( p -> {
+                        Proceding proceding = procedingService.getProceding(p.getProcedingId()).get();
+                            if(proceding.getConditionId() == 2 ) {
+                                report.setAssignProcedigns( report.getAssignProcedigns() + 1 ); ;
+                            }
+                            if(proceding.getConditionId() == 3 ) {
+                                report.setResolveProcedings( report.getResolveProcedings() + 1 ); ;
+                            }
+                            if(proceding.getActive() == 0 ) {
+                                report.setInactiveProcedings( report.getInactiveProcedings() + 1 ); ;
+
+                            }
+                        });
+                }
+                reportVocals.add(report);
+            }else {
+                LocalDateTime init = LocalDateTime.parse(initDate);
+                LocalDateTime end = LocalDateTime.parse(endDate);
+                if(vocalData.getProcedings().size() != 0) {
+                    vocalData.getProcedings().forEach( p -> {
+
+                        System.out.println(p.getDateCreated().compareTo(init) );
+                        System.out.println(p.getDateCreated().compareTo(end) );
+                        System.out.println(p.getDateCreated() );
+
+
+                        if(p.getDateCreated().compareTo(init) > 0 && p.getDateCreated().compareTo(end) < 0) {
+
+                            Proceding proceding = procedingService.getProceding(p.getProcedingId()).get();
+                            if(proceding.getConditionId() == 2 ) {
+                                report.setAssignProcedigns( report.getAssignProcedigns() + 1 ); ;
+                            }
+                            if(proceding.getConditionId() == 3 ) {
+                                report.setResolveProcedings( report.getResolveProcedings() + 1 ); ;
+                            }
+                            if(proceding.getActive() == 0 ) {
+                                report.setInactiveProcedings( report.getInactiveProcedings() + 1 ); ;
+
+                            }
+                        }
+                    });
+                }
+                reportVocals.add(report);
             }
-            reportVocals.add(report);
         });
         return new ResponseEntity<>(reportVocals,HttpStatus.OK);
 
