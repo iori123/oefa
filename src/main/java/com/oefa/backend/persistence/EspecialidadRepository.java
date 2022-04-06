@@ -28,6 +28,7 @@ public class EspecialidadRepository implements SpecialtyRepository  {
 
     @Override
     public Optional<Specialty> getSpecialty(Integer id) {
+        //return Optional.of( mapper.toSpecialty(especialidadCrudRepository.findOne(id)));
         return especialidadCrudRepository.findById(id).map(especialidad -> mapper.toSpecialty(especialidad));
     }
 

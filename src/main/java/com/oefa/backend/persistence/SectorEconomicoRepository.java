@@ -30,6 +30,8 @@ public class SectorEconomicoRepository implements EconomicSectorRepository {
     }
     @Override
     public Optional<EconomicSector> getEconomicSector(Integer id) {
+       // return Optional.of( mapper.toEconomicSector(sectorEconomicoCrudRepository.findOne(id)));
+
         return sectorEconomicoCrudRepository.findById(id).map(sectorEconomico -> mapper.toEconomicSector(sectorEconomico));
     }
 

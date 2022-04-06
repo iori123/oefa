@@ -29,6 +29,8 @@ public class OficinaProvenienteRepository implements OfficeFromRepository {
 
     @Override
     public Optional<OfficeFrom> getOfficeFrom(Integer id) {
+        //return Optional.of( mapper.toOfficeFrom(oficinaProvenienteCrudRepository.findOne(id)));
+
         return oficinaProvenienteCrudRepository.findById(id).map(oficina -> mapper.toOfficeFrom(oficina));
     }
     @Override

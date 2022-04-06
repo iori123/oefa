@@ -33,6 +33,8 @@ public class VocalPonenteRepository implements VocalRepository {
 
     @Override
     public Optional<Vocal> getVocal(Integer id) {
+        //return Optional.of( mapper.toVocal(vocalPonenteCrudRepository.findOne(id)));
+
         return vocalPonenteCrudRepository.findById(id).map(vocalPonente -> mapper.toVocal(vocalPonente));
     }
     @Override

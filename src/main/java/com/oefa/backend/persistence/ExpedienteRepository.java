@@ -34,6 +34,8 @@ public class ExpedienteRepository  implements ProcedingRepository {
     }
     @Override
     public Optional<Proceding> getProceding(Integer id) {
+        //return Optional.of( mapper.toProceding(expedienteCrudRepository.findOne(id)));
+
         return expedienteCrudRepository.findById(id).map(expediente -> mapper.toProceding(expediente));
     }
 

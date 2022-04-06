@@ -1,6 +1,5 @@
 package com.oefa.backend.domain;
 
-import javax.persistence.Column;
 import java.time.LocalDateTime;
 
 public class EconomicSector {
